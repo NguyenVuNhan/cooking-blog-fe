@@ -1,4 +1,4 @@
-import * as auth from "../../firebase/authenticate";
+import * as authApi from "../../firebase/authenticate";
 import {
   onSetAuthenticated,
   onSetError,
@@ -8,7 +8,7 @@ import {
 
 export const signUp = (email: string, password: string, cb?: callbackfn) => {
   onSetLoading(true);
-  auth.signUp(email, password).subscribe(onSetUser, onSetError, cb);
+  authApi.signUp(email, password).subscribe(onSetUser, onSetError, cb);
 };
 
 export const signIn = (
@@ -17,7 +17,7 @@ export const signIn = (
   cb: callbackfn = () => {}
 ) => {
   onSetLoading(true);
-  auth.signIn(email, password).subscribe(onSetUser, onSetError, () => {
+  authApi.signIn(email, password).subscribe(onSetUser, onSetError, () => {
     onSetAuthenticated(true);
     cb();
   });
@@ -25,7 +25,7 @@ export const signIn = (
 
 export const signOut = (cb: callbackfn = () => {}) => {
   onSetLoading(true);
-  auth.signOut().subscribe(
+  authApi.signOut().subscribe(
     (_res) => onSetUser(null),
     onSetError,
     () => {

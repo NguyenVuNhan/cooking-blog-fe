@@ -1,7 +1,5 @@
 require("dotenv").config({ path: __dirname + "/../../.env" });
 
-console.log(process.env);
-
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,

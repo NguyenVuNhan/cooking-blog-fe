@@ -5,7 +5,7 @@ import "firebase/firestore";
 
 import { firebaseConfig } from "../providers/local.provider";
 
-firebase.initializeApp(firebaseConfig);
+export const app = firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 export const auth = firebase.auth();

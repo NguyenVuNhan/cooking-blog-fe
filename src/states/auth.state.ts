@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-import { map, scan, startWith } from "rxjs/operators";
+import { map, scan, shareReplay, startWith } from "rxjs/operators";
 import { FirebaseError, UserCredential } from "../@types/external";
 import { actionMerge } from "../helpers/rxjs-utils";
 
@@ -56,8 +56,8 @@ const authAction$ = actionMerge({
   AUTH_SET_AUTHENTICATE: setAuthenticated$.pipe(
     map((isAuthenticated) => isAuthenticated)
   ),
-  AUTH_SET_LOADING: setLoading$.pipe(map((loading) => loading)),
-  AUTH_SET_ERROR: setError$.pipe(map((error) => error)),
+  AUTH_SET_LOADING: setLoading$,
+  AUTH_SET_ERROR: setError$.pipe(map((error) => ({ loaded: false, error }))),
 });
 
 export const authState$ = authAction$.pipe(
@@ -66,14 +66,16 @@ export const authState$ = authAction$.pipe(
       case AUTH_SET_LOADING:
         return { ...state, loading: action.payload };
       case AUTH_SET_USER:
+        console.log(action.payload.user?.uid);
         return { ...state, ...action.payload };
       case AUTH_SET_AUTHENTICATE:
         return { ...state, isAuthenticated: action.payload };
       case AUTH_SET_ERROR:
-        return { ...state, error: action.payload };
+        return { ...state, ...action.payload };
       default:
         return state;
     }
   }, initialState),
-  startWith(initialState)
+  startWith(initialState),
+  shareReplay(1)
 );

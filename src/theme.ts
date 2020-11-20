@@ -1,4 +1,5 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core";
+import type {} from "@material-ui/lab/themeAugmentation";
 
 export const breakPoints = {
   xl: 1920,

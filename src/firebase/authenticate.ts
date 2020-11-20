@@ -29,4 +29,4 @@ export const signIn = (
 /**
  * Sign out user
  */
-export const signOut = (): Observable<void> => defer(() => auth.signOut());
+export const signOut = (): Observable<void> => defer(auth.signOut);

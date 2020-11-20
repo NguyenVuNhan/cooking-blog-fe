@@ -1,7 +1,7 @@
-import { mergeWithKey } from "@react-rxjs/utils";
 import React from "react";
 import { merge, of, Subject } from "rxjs";
 import { delay, mapTo, switchMap } from "rxjs/operators";
+import { actionMerge } from "../../helpers/rxjs-utils";
 
 const login = (_email: string, _password: string) =>
   of(1).pipe(delay(1000), mapTo({ user: "John Doe" }));
@@ -15,7 +15,7 @@ const onLoginAction = (email: string, password: string) => {
 const logoutAction$ = new Subject<void>();
 const onLogoutAction = () => logoutAction$.next();
 
-const authAction$ = mergeWithKey({
+const authAction$ = actionMerge({
   login: loginAction$.pipe(
     switchMap(({ email, password }) =>
       merge(of({ loading: true }), login(email, password))

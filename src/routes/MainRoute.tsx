@@ -1,14 +1,17 @@
 import React from "react";
 import { BrowserRouter, Redirect } from "react-router-dom";
+import { useAuthenticatedStatus } from "../hooks";
 import AuthRoutes from "./AuthRoute";
+import RecipeRoute from "./RecipeRoute";
 
 const MainRoute = () => {
-  const auth = false;
+  const auth = useAuthenticatedStatus();
 
   return (
     <BrowserRouter>
       <AuthRoutes />
-      {!auth ? <Redirect to="/login" /> : <Redirect to="/" />}
+      <RecipeRoute isAuthenticated={auth} />
+      {!auth ? <Redirect to="/login" /> : <Redirect to="/recipe" />}
     </BrowserRouter>
   );
 };

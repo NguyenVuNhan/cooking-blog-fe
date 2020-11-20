@@ -1572,6 +1572,17 @@
   dependencies:
     "@babel/runtime" "^7.4.4"
 
+"@material-ui/lab@^4.0.0-alpha.56":
+  version "4.0.0-alpha.56"
+  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.56.tgz#ff63080949b55b40625e056bbda05e130d216d34"
+  integrity sha512-xPlkK+z/6y/24ka4gVJgwPfoCF4RCh8dXb1BNE7MtF9bXEBLN/lBxNTK8VAa0qm3V2oinA6xtUIdcRh0aeRtVw==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@material-ui/utils" "^4.10.2"
+    clsx "^1.0.4"
+    prop-types "^15.7.2"
+    react-is "^16.8.0"
+
 "@material-ui/styles@^4.10.0":
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.10.0.tgz#2406dc23aa358217aa8cc772e6237bd7f0544071"
@@ -1710,16 +1721,6 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
-
-"@react-rxjs/core@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@react-rxjs/core/-/core-0.6.1.tgz#d2d401bdcb72baf7b5ecdf59d4b809bd044d2f0e"
-  integrity sha512-E2LXU+udZpaoy528IKVaIzuwcB7IEcBL9caWdnPx25B7SaoBo5BTVnuLNdTVZjjwExCBBeg0NO3Nmj408lMLvw==
-
-"@react-rxjs/utils@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@react-rxjs/utils/-/utils-0.3.0.tgz#1fe49d9fe581ce3b00bad12512a222c8f342f16a"
-  integrity sha512-cJwSuxUnnbAkliBlxsbu414El2IVIJrrnXcIKYBQvNllcLZJpNUKKosW1GedoO1fHD5HKwDSnllBW7O1jCAMHQ==
 
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"
