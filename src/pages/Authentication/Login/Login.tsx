@@ -12,7 +12,7 @@ const Login = () => {
   const { handleSubmit, register } = useForm<LoginForm>();
 
   const onSubmit = (data: LoginForm) => {
-    signIn(data.email, data.password, () => console.log("Logged in"));
+    signIn(data.email, data.password, () => history.push("/"));
   };
 
   const toRegister = () => history.push("/register");

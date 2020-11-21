@@ -1,12 +1,14 @@
 import React, { FunctionComponent } from "react";
-import { Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import AuthenticatedGuard from "../guards/AuthenticatedGuard";
 import AddRecipe from "../pages/Recipes/AddRecipe";
 import ListRecipe from "../pages/Recipes/ListRecipe";
+import SearchRecipe from "../pages/Recipes/SearchRecipe";
+import ViewRecipe from "../pages/Recipes/ViewRecipe/ViewRecipe";
 
-type Props = {
+interface Props {
   isAuthenticated: Boolean | undefined;
-};
+}
 
 const RecipeRoute: FunctionComponent<Props> = ({ isAuthenticated }) => {
   return (
@@ -17,7 +19,19 @@ const RecipeRoute: FunctionComponent<Props> = ({ isAuthenticated }) => {
         path="/recipe/add"
         component={AddRecipe}
       />
-      <AuthenticatedGuard
+      <Route
+        isAuthenticated={isAuthenticated}
+        exact
+        path="/recipe/search(.*)"
+        component={SearchRecipe}
+      />
+      <Route
+        isAuthenticated={isAuthenticated}
+        exact
+        path="/recipe/:id"
+        component={ViewRecipe}
+      />
+      <Route
         isAuthenticated={isAuthenticated}
         exact
         path="/recipe"

@@ -38,7 +38,9 @@ const LoginBtn = () => {
 const Test = () => {
   React.useEffect(() => {
     const subscriber = authAction$.subscribe(console.log);
-    return () => subscriber.unsubscribe();
+    return () => {
+      subscriber.unsubscribe();
+    };
   }, []);
 
   return (

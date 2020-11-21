@@ -1,7 +1,8 @@
 import React from "react";
-import { BrowserRouter, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { useAuthenticatedStatus } from "../hooks";
 import AuthRoutes from "./AuthRoute";
+import HomeRoute from "./HomeRoute";
 import RecipeRoute from "./RecipeRoute";
 
 const MainRoute = () => {
@@ -11,7 +12,7 @@ const MainRoute = () => {
     <BrowserRouter>
       <AuthRoutes />
       <RecipeRoute isAuthenticated={auth} />
-      {!auth ? <Redirect to="/login" /> : <Redirect to="/recipe" />}
+      <HomeRoute />
     </BrowserRouter>
   );
 };

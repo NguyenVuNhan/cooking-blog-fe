@@ -1,6 +1,7 @@
+import { UserCredential } from "@firebase/auth-types";
+import { FirebaseError } from "@firebase/util";
 import { Subject } from "rxjs";
 import { map, scan, shareReplay, startWith } from "rxjs/operators";
-import { FirebaseError, UserCredential } from "../@types/external";
 import { actionMerge } from "../helpers/rxjs-utils";
 
 export interface UserCredentialState extends UserCredential {

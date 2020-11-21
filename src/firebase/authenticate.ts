@@ -1,6 +1,6 @@
 import { defer, Observable } from "rxjs";
 import { auth } from "./firebase";
-import { UserCredential } from "../@types/external";
+import { UserCredential } from "@firebase/auth-types";
 
 /**
  * Create account using email and password

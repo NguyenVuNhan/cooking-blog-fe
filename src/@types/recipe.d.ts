@@ -18,5 +18,6 @@ export interface RecipeListState {
   firstInList: String | undefined;
   recipeList: Recipe[];
   lastInList: String | undefined;
+  currentRecipe: Recipe | undefined;
   loading: Boolean;
 }

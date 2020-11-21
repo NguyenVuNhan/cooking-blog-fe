@@ -1,3 +1,7 @@
+interface SearchForm {
+  data: string;
+}
+
 interface LoginForm {
   email: string;
   password: string;

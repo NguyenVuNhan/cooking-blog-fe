@@ -9,9 +9,23 @@ const styles = (theme: Theme) => ({
         display: "none",
       },
     },
+    ".bg-white": {
+      backgroundColor: theme.palette.common.white,
+    },
+    ".rounded": {
+      borderRadius: ".25rem",
+    },
+    ".border": {
+      border: `1px solid ${theme.palette.grey[300]}`,
+    },
+
+    //Positioning
+    ".position-relative": {
+      position: "relative",
+    },
 
     // Floating
-    ".float-left": {
+    ".float-right": {
       float: "right",
     },
 

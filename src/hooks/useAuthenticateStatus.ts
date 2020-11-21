@@ -9,7 +9,9 @@ const useAuthenticatedStatus = () => {
     const s = authState$
       .pipe(map((state) => state.isAuthenticated))
       .subscribe(setIsAuthenticated);
-    return () => s.unsubscribe();
+    return () => {
+      s.unsubscribe();
+    };
   }, []);
 
   return isAuthenticated;
