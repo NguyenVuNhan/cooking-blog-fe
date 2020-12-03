@@ -22,4 +22,7 @@ yarn-error.log*
 
 # local config
 .vim
+.git
 yarn.lock
+*.swp
+.firebase
