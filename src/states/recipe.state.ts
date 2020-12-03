@@ -1,6 +1,5 @@
 import { Subject } from "rxjs";
 import { map, scan, shareReplay, startWith } from "rxjs/operators";
-import { Recipe, RecipeListState } from "../@types/recipe";
 import { actionMerge } from "../helpers/rxjs-utils";
 
 const RECIPE_SET_RECIPE = "RECIPE_SET_RECIPE";
@@ -15,17 +14,17 @@ const initialState: RecipeListState = {
 };
 
 const setRecipe$ = new Subject<Recipe>();
-export const onSetRecipe = (recipe: Recipe) => {
+export const onSetRecipe = (recipe: Recipe): void => {
   setRecipe$.next(recipe);
 };
 
 const setRecipeList$ = new Subject<Recipe[]>();
-export const onSetRecipeList = (recipes: Recipe[]) => {
+export const onSetRecipeList = (recipes: Recipes): void => {
   setRecipeList$.next(recipes);
 };
 
-const setLoading$ = new Subject<Boolean>();
-export const onSetLoading = (loading: Boolean) => {
+const setLoading$ = new Subject<boolean>();
+export const onSetLoading = (loading: boolean): void => {
   setLoading$.next(loading);
 };
 

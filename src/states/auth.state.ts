@@ -1,12 +1,12 @@
 import { UserCredential } from "@firebase/auth-types";
 import { FirebaseError } from "@firebase/util";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { map, scan, shareReplay, startWith } from "rxjs/operators";
 import { actionMerge } from "../helpers/rxjs-utils";
 
 export interface UserCredentialState extends UserCredential {
-  loading: Boolean;
-  isAuthenticated: Boolean;
+  loading: boolean;
+  isAuthenticated: boolean;
   error: FirebaseError | null;
 }
 
@@ -27,18 +27,18 @@ const initialState: UserCredentialState = {
   error: null,
 };
 
-const setUser$ = new Subject<UserCredential>();
+const setUser$ = new BehaviorSubject<UserCredential>(nullUser);
 export const onSetUser = (user: UserCredential | null) => {
   setUser$.next(user === null ? nullUser : user);
 };
 
-const setLoading$ = new Subject<Boolean>();
-export const onSetLoading = (loading: Boolean) => {
+const setLoading$ = new Subject<boolean>();
+export const onSetLoading = (loading: boolean) => {
   setLoading$.next(loading);
 };
 
-const setAuthenticated$ = new Subject<Boolean>();
-export const onSetAuthenticated = (isAuthenticated: Boolean) => {
+const setAuthenticated$ = new Subject<boolean>();
+export const onSetAuthenticated = (isAuthenticated: boolean) => {
   setAuthenticated$.next(isAuthenticated);
 };
 

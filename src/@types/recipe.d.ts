@@ -1,23 +1,32 @@
-export interface RecipeStep {
-  id?: String;
-  description: String;
-  duration: number;
+interface RecipeStep {
+  id?: string;
+  description: string;
+  ingredients: string[];
 }
+type RecipeSteps = RecipeStep[];
 
-export interface Recipe {
-  id?: String;
-  title: String;
+interface Ingredient {
+  name: string;
+  amount: string;
+}
+type Ingredients = Ingredient[];
+
+interface Recipe {
+  id?: string;
+  title: string;
   owner?: string;
-  description?: String;
-  steps: RecipeStep[];
-  ingredients: String[];
-  duration: number;
+  description?: string;
+  steps: RecipeSteps;
+  ingredients: Ingredients;
+  duration: string;
 }
 
-export interface RecipeListState {
-  firstInList: String | undefined;
-  recipeList: Recipe[];
-  lastInList: String | undefined;
+type Recipes = Recipe[];
+
+interface RecipeListState {
+  firstInList: string | undefined;
+  recipeList: Recipes;
+  lastInList: string | undefined;
   currentRecipe: Recipe | undefined;
-  loading: Boolean;
+  loading: boolean;
 }

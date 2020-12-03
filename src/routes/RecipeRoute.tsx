@@ -2,12 +2,11 @@ import React, { FunctionComponent } from "react";
 import { Route, Switch } from "react-router-dom";
 import AuthenticatedGuard from "../guards/AuthenticatedGuard";
 import AddRecipe from "../pages/Recipes/AddRecipe";
-import ListRecipe from "../pages/Recipes/ListRecipe";
 import SearchRecipe from "../pages/Recipes/SearchRecipe";
-import ViewRecipe from "../pages/Recipes/ViewRecipe/ViewRecipe";
+import ViewRecipe from "../pages/Recipes/ViewRecipe";
 
 interface Props {
-  isAuthenticated: Boolean | undefined;
+  isAuthenticated: boolean | undefined;
 }
 
 const RecipeRoute: FunctionComponent<Props> = ({ isAuthenticated }) => {
@@ -30,12 +29,6 @@ const RecipeRoute: FunctionComponent<Props> = ({ isAuthenticated }) => {
         exact
         path="/recipe/:id"
         component={ViewRecipe}
-      />
-      <Route
-        isAuthenticated={isAuthenticated}
-        exact
-        path="/recipe"
-        component={ListRecipe}
       />
     </Switch>
   );

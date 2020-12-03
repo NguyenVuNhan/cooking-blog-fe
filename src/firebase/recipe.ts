@@ -1,29 +1,37 @@
-import { defer, zip } from "rxjs";
+import { defer, Observable, zip } from "rxjs";
 import { map } from "rxjs/operators";
 import {
   QueryDocumentSnapshot,
   QuerySnapshot,
   DocumentSnapshot,
 } from "@firebase/firestore-types";
-import { Recipe } from "../@types/recipe";
-import { app, firestore } from "./firebase";
+import { firestore } from "./firebase";
+import { unique } from "../helpers/utils";
 
 const paginateSize = 20;
 const recipesRef = firestore.collection("recipes");
-export const toRecipe = (data: QuerySnapshot<Recipe>): Recipe[] =>
+const ingredientsRef = firestore.collection("ingredients");
+
+export const toRecipe = (data: QuerySnapshot<Recipe>): Recipes =>
   data.docs.map((doc: QueryDocumentSnapshot<Recipe>) => ({
     ...doc.data(),
     id: doc.id,
   }));
 
-export const addRecipe = (recipe: Recipe) => {
-  recipe.ingredients = recipe.ingredients.map((ingredient) =>
-    ingredient.toLowerCase()
+export const addRecipe = (recipe: Recipe): Observable<void[]> => {
+  recipe.ingredients = recipe.ingredients.map((ingredient) => ({
+    ...ingredient,
+    name: ingredient.name.toLowerCase(),
+  }));
+  return zip(
+    recipesRef.doc().set(recipe),
+    ...recipe.ingredients.map((ingredient) =>
+      ingredientsRef.doc(ingredient.name).set({}, { merge: true })
+    )
   );
-  return defer(() => recipesRef.doc().set(recipe));
 };
 
-export const searchRecipe = (data: string) =>
+export const searchRecipe = (data: string): Observable<Recipes> =>
   zip(
     defer(() =>
       recipesRef
@@ -37,52 +45,35 @@ export const searchRecipe = (data: string) =>
         .get()
     )
   ).pipe(
-    map(([r1, r2]) => [
-      ...toRecipe(r1 as QuerySnapshot<Recipe>),
-      ...toRecipe(r2 as QuerySnapshot<Recipe>),
-    ])
+    map(([r1, r2]) =>
+      unique(
+        [
+          ...toRecipe(r1 as QuerySnapshot<Recipe>),
+          ...toRecipe(r2 as QuerySnapshot<Recipe>),
+        ],
+        (recipe) => (recipe.id ? recipe.id : "")
+      )
+    )
   );
 
-export const getRecipe = (id: string) =>
+export const getRecipe = (id: string): Observable<Recipe> =>
   defer(() => recipesRef.doc(id).get()).pipe(
     map((recipe) => {
       return { ...(recipe as DocumentSnapshot<Recipe>).data(), id } as Recipe;
     })
   );
 
-export const getRecipeList = () =>
+export const getRecipeList = (): Observable<Recipes> =>
   defer(() => recipesRef.limit(paginateSize).get()).pipe(
     map((data) => toRecipe(data as QuerySnapshot<Recipe>))
   );
 
-export const nextRecipeList = (recipeId: String) =>
+export const nextRecipeList = (recipeId: string): Observable<Recipes> =>
   defer(() => recipesRef.startAfter(recipeId).limit(paginateSize).get()).pipe(
     map((data) => toRecipe(data as QuerySnapshot<Recipe>))
   );
 
-export const previousRecipeList = (recipeId: String) =>
+export const previousRecipeList = (recipeId: string): Observable<Recipes> =>
   defer(() => recipesRef.endBefore(recipeId).limit(paginateSize).get()).pipe(
     map((data) => toRecipe(data as QuerySnapshot<Recipe>))
   );
-
-export const dummyRecipe = () => {
-  const user = app.auth().currentUser;
-  if (!user) throw new Error("User not logged in");
-
-  //   console.log(user.uid);
-  //   firestore
-  //     .collection("recipes")
-  //     .doc()
-  //     .set({ user: user.uid, test: Math.floor(Date.now() / 1000) })
-  //     .then(console.log);
-
-  firestore
-    .collection("recipes")
-    // .orderBy("test", "desc")
-    // .startAfter("VzoHMCz35rjDjI3YJ5SU")
-    .get()
-    .then((data) => {
-      const d = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      console.log(d);
-    });
-};

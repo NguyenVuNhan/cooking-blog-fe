@@ -8,7 +8,7 @@ const useStyle = makeStyles({
   toolbox: {
     position: "absolute",
     right: 30,
-    top: 10,
+    bottom: 10,
   },
 });
 

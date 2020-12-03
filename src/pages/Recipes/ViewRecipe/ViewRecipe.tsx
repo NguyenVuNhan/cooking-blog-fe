@@ -1,19 +1,20 @@
-import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Recipe } from "../../../@types/recipe";
-import { getRecipe } from "../../../firebase/recipe";
+import React, { useEffect, useState, FunctionComponent } from "react";
+import { useParams } from "react-router-dom";
+import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
+import { getRecipe } from "firebase/recipe";
+import { useUserInfo } from "hooks";
 
 interface ParamTypes {
   id: string;
 }
 
-const ViewRecipe = () => {
-  const history = useHistory();
+const ViewRecipe: FunctionComponent = () => {
   const { id } = useParams<ParamTypes>();
   const [recipe, setRecipe] = useState<Recipe>();
+  const user = useUserInfo();
 
   useEffect(() => {
     const s = getRecipe(id).subscribe(setRecipe);
@@ -23,17 +24,10 @@ const ViewRecipe = () => {
     };
   }, [id]);
 
-  const goBack = () => {
-    history.goBack();
-  };
-
   return !recipe ? (
     <div>Loading...</div>
   ) : (
-    <div>
-      <IconButton onClick={goBack}>
-        <ArrowBackIcon />
-      </IconButton>
+    <RecipeFeatureTemplate>
       <Typography variant="h2" align="center" noWrap>
         {recipe.title}
       </Typography>
@@ -62,12 +56,34 @@ const ViewRecipe = () => {
       {recipe.steps.map((step, index) => (
         <React.Fragment key={index}>
           <Typography variant="h6" align="left" noWrap>
-            Step {index + 1} - {step.duration} min:
+            Step {index + 1}:
           </Typography>
+          <p className="font-weight-bold">
+            Ingredients
+            {step.ingredients.map((ingredient, index) => (
+              <Chip
+                key={index}
+                className="ml-1"
+                size="small"
+                color="primary"
+                component="span"
+                label={ingredient}
+              />
+            ))}
+          </p>
+          <p className="font-weight-bold">Description</p>
           <p>{step.description}</p>
         </React.Fragment>
       ))}
-    </div>
+
+      {user?.uid === recipe.owner && (
+        <div className="w-100 d-flex justify-content-center">
+          <Button variant="contained" color="secondary">
+            Delete
+          </Button>
+        </div>
+      )}
+    </RecipeFeatureTemplate>
   );
 };
 

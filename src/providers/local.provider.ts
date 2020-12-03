@@ -1,4 +1,6 @@
-require("dotenv").config({ path: __dirname + "/../../.env" });
+import dotenv from "dotenv";
+
+dotenv.config({ path: __dirname + "/../../.env" });
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,

@@ -1,17 +1,17 @@
+import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import Typography from "@material-ui/core/Typography";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import SearchIcon from "@material-ui/icons/Search";
-import { searchRecipe } from "../recipes.actions";
-import { useQuery } from "../../../hooks";
-import Box from "@material-ui/core/Box";
+import ListRecipe from "components/organism/ListRecipe";
+import RecipeTemplate from "components/templates/recipe.template";
+import { useQuery } from "hooks";
+import React, { FunctionComponent, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import ListRecipe from "../ListRecipe";
-import RecipeTemplate from "../../../components/templates/recipe.template";
+import { searchRecipe } from "../recipes.actions";
 
-const SearchRecipe = () => {
+const SearchRecipe: FunctionComponent = () => {
   const { register, handleSubmit } = useForm<SearchForm>();
   const query = useQuery();
   const history = useHistory();
@@ -21,7 +21,6 @@ const SearchRecipe = () => {
     if (q) {
       searchRecipe(q);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = (data: SearchForm) => {

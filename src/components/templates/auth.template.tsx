@@ -10,8 +10,8 @@ import background from "../../assets/landing.jpg";
 type Props = {
   children: ReactNode;
   onSubmit: FormEventHandler;
-  title: String;
-  subTitle: String;
+  title: string;
+  subTitle: string;
 };
 
 const useStyle = makeStyles({

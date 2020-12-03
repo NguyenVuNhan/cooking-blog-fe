@@ -42,6 +42,9 @@ const styles = (theme: Theme) => ({
     ".text-success": {
       color: `${theme.palette.success.main} !important`,
     },
+    ".text-center": {
+      textAlign: "center",
+    },
 
     // Flex
     ".d-flex": {
@@ -72,37 +75,37 @@ const styles = (theme: Theme) => ({
 
     // Sizing
     ".w-auto": { width: "auto" },
-    ...[0, 25, 50, 75, 100].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 25, 50, 75, 100].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.w-${i}`] = { width: `${i}%` };
       return obj;
     }, {}),
-    ...[0, 25, 50, 75, 100].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 25, 50, 75, 100].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.h-${i}`] = { height: `${i}%` };
       return obj;
     }, {}),
 
     // Padding
     ".p-auto": { padding: "auto" },
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.p-${i}`] = { padding: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.pl-${i}`] = { paddingLeft: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.pr-${i}`] = { paddingRight: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.px-${i}`] = {
         paddingLeft: theme.spacing(i),
         paddingRight: theme.spacing(i),
       };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.py-${i}`] = {
         paddingTop: theme.spacing(i),
         paddingBottom: theme.spacing(i),
@@ -110,34 +113,34 @@ const styles = (theme: Theme) => ({
       return obj;
     }, {}),
     // Margin
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.m-${i}`] = { margin: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.ml-${i}`] = { marginLeft: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.mr-${i}`] = { marginRight: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.mt-${i}`] = { marginTop: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.mb-${i}`] = { marginBottom: theme.spacing(i) };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.mx-${i}`] = {
         marginLeft: theme.spacing(i),
         marginRight: theme.spacing(i),
       };
       return obj;
     }, {}),
-    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, any>, i) {
+    ...[0, 1, 2, 3, 4, 5].reduce(function (obj: Record<string, unknown>, i) {
       obj[`.my-${i}`] = {
         marginTop: theme.spacing(i),
         marginBottom: theme.spacing(i),

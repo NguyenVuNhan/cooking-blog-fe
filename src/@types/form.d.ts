@@ -2,6 +2,16 @@ interface SearchForm {
   data: string;
 }
 
+interface RecipeForm {
+  id?: string;
+  title: string;
+  owner?: string;
+  description?: string;
+  steps: RecipeStep[];
+  ingredients: Ingredients;
+  duration: string;
+}
+
 interface LoginForm {
   email: string;
   password: string;

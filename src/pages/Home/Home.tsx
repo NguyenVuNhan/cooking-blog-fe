@@ -2,22 +2,19 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
+import clsx from "clsx";
 import React from "react";
 import { useForm } from "react-hook-form";
-import background from "../../assets/landing.jpg";
 import { useHistory } from "react-router-dom";
+import ToolBox from "../../components/organism/Toolbox";
 
 const useStyles = makeStyles({
   container: {
     width: "100vw",
     height: "100vh",
-    backgroundImage: `url(${background})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
     alignItems: "center",
     "& .MuiPaper-root": {
       padding: 16,
@@ -26,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Home = () => {
+const Home: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const { register, handleSubmit } = useForm<SearchForm>();
@@ -36,7 +33,11 @@ const Home = () => {
   };
 
   return (
-    <Container className={classes.container} maxWidth={false}>
+    <Container
+      className={clsx(classes.container, "position-relative")}
+      maxWidth={false}
+    >
+      <ToolBox />
       <Box
         height="100vh"
         display="flex"
@@ -51,7 +52,7 @@ const Home = () => {
             placeholder="Search recipe"
             inputProps={{ "aria-label": "Search recipe" }}
             name="data"
-            className="rounded pl-2 w-100 bg-white mt-2"
+            className="rounded pl-2 w-100 bg-white mt-2 border"
             inputRef={register}
             endAdornment={
               <IconButton type="submit">

@@ -5,20 +5,15 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import React, { useEffect } from "react";
+import { useRecipes } from "hooks";
+import React, { FunctionComponent } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecipes } from "../../../hooks";
-import { getListRecipes } from "../recipes.actions";
 
-const ListRecipe = () => {
+const ListRecipe: FunctionComponent = () => {
   const history = useHistory();
   const recipes = useRecipes();
 
-  useEffect(() => {
-    getListRecipes();
-  }, []);
-
-  const toRecipe = (id: String | undefined) => () => {
+  const toRecipe = (id: string | undefined) => () => {
     history.push(`/recipe/${id}`);
   };
 

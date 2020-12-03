@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { map } from "rxjs/operators";
 import { authState$ } from "../states/auth.state";
 
-const useAuthenticatedStatus = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<Boolean>();
+const useAuthenticatedStatus = (): boolean => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
     const s = authState$

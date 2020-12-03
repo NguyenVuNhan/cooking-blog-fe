@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Recipe } from "../@types/recipe";
 import { recipeState$ } from "../states/recipe.state";
 
-const useRecipes = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+const useRecipes = (): Recipes => {
+  const [recipes, setRecipes] = useState<Recipes>([]);
 
   useEffect(() => {
     const s = recipeState$.subscribe((state) => setRecipes(state.recipeList));

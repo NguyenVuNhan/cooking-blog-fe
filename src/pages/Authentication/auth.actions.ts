@@ -6,7 +6,11 @@ import {
   onSetUser,
 } from "../../states/auth.state";
 
-export const signUp = (email: string, password: string, cb?: callbackfn) => {
+export const signUp = (
+  email: string,
+  password: string,
+  cb?: callbackfn
+): void => {
   onSetLoading(true);
   authApi.signUp(email, password).subscribe(onSetUser, onSetError, cb);
 };
@@ -15,7 +19,7 @@ export const signIn = (
   email: string,
   password: string,
   cb: callbackfn = () => {}
-) => {
+): void => {
   onSetLoading(true);
   authApi.signIn(email, password).subscribe(onSetUser, onSetError, () => {
     onSetAuthenticated(true);
@@ -23,7 +27,7 @@ export const signIn = (
   });
 };
 
-export const signOut = (cb: callbackfn = () => {}) => {
+export const signOut = (cb: callbackfn = () => {}): void => {
   onSetLoading(true);
   authApi.signOut().subscribe(
     (_res) => onSetUser(null),
