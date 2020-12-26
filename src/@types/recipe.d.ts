@@ -7,7 +7,7 @@ type RecipeSteps = RecipeStep[];
 
 interface Ingredient {
   name: string;
-  amount: string;
+  amount?: string;
 }
 type Ingredients = Ingredient[];
 

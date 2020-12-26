@@ -46,7 +46,9 @@ const ViewRecipe: FunctionComponent = () => {
       <ul>
         {recipe.ingredients.map((ingredient, index) => (
           <li key={index}>
-            <p>{ingredient}</p>
+            <p>
+              {ingredient.name} {ingredient.amount}
+            </p>
           </li>
         ))}
       </ul>

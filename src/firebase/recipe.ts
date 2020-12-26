@@ -35,8 +35,8 @@ export const searchRecipe = (data: string): Observable<Recipes> =>
   zip(
     defer(() =>
       recipesRef
-        .where("title", ">=", data)
-        .where("title", "<=", data + "\uf8ff")
+        .where("title", ">=", data.toUpperCase())
+        .where("title", "<=", data.toUpperCase() + "\uf8ff")
         .get()
     ),
     defer(() =>
