@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 import ForgotPassword from "../pages/Authentication/ForgotPassword";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
 
-const AuthRoutes = () => {
+const AuthRoutes: FC = () => {
   return (
     <Switch>
       <Route exact path="/login" component={Login} />

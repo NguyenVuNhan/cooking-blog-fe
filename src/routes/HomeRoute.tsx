@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "../pages/Home";
 
-const HomeRoute = () => {
+const HomeRoute: FC = () => {
   return (
     <Switch>
       <Route exact path="/home" component={Home} />

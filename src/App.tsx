@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FC } from "react";
 import { CssBaseline, MuiThemeProvider } from "@material-ui/core";
 import theme from "./theme";
 import GlobalStyles from "./globalStyle";
 import Route from "./routes";
 /* import Test from "./pages/Test/Test"; */
 
-function App() {
+const App: FC = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
@@ -14,6 +14,6 @@ function App() {
       {/* <Test /> */}
     </MuiThemeProvider>
   );
-}
+};
 
 export default App;

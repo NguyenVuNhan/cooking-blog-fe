@@ -1,17 +1,18 @@
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import React from "react";
+import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import AuthTemplate from "../../../components/templates/auth.template";
 
-const ForgotPassword = () => {
+const ForgotPassword: FC = () => {
   const history = useHistory();
   const { handleSubmit, register } = useForm<ForgotPasswordForm>();
 
   const onSubmit = (data: ForgotPasswordForm) => {
     // TODO: login user
+    // eslint-disable-next-line no-console
     console.log(data);
   };
 

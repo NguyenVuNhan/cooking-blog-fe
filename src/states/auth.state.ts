@@ -28,22 +28,22 @@ const initialState: UserCredentialState = {
 };
 
 const setUser$ = new BehaviorSubject<UserCredential>(nullUser);
-export const onSetUser = (user: UserCredential | null) => {
+export const onSetUser = (user: UserCredential | null): void => {
   setUser$.next(user === null ? nullUser : user);
 };
 
 const setLoading$ = new Subject<boolean>();
-export const onSetLoading = (loading: boolean) => {
+export const onSetLoading = (loading: boolean): void => {
   setLoading$.next(loading);
 };
 
 const setAuthenticated$ = new Subject<boolean>();
-export const onSetAuthenticated = (isAuthenticated: boolean) => {
+export const onSetAuthenticated = (isAuthenticated: boolean): void => {
   setAuthenticated$.next(isAuthenticated);
 };
 
 const setError$ = new Subject<FirebaseError | null>();
-export const onSetError = (error: FirebaseError | null) => {
+export const onSetError = (error: FirebaseError | null): void => {
   setError$.next(error);
 };
 
@@ -67,7 +67,6 @@ export const authState$ = authAction$.pipe(
       case AUTH_SET_LOADING:
         return { ...state, loading: action.payload };
       case AUTH_SET_USER:
-        console.log(action.payload.user?.uid);
         return { ...state, ...action.payload };
       case AUTH_SET_AUTHENTICATE:
         return { ...state, isAuthenticated: action.payload };

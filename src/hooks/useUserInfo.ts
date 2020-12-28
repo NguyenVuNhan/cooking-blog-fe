@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { map } from "rxjs/operators";
 import { authState$ } from "../states/auth.state";
 
-const useUserInfo = () => {
+const useUserInfo = (): User | null => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {

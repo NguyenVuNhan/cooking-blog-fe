@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { merge, Observable, ObservableInput, from } from "rxjs";
 import { map } from "rxjs/operators";
 

@@ -1,7 +1,7 @@
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import React from "react";
+import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 
 const useStyle = makeStyles({
@@ -12,7 +12,7 @@ const useStyle = makeStyles({
   },
 });
 
-const ToolBox = () => {
+const ToolBox: FC = () => {
   const classes = useStyle();
   const history = useHistory();
 
