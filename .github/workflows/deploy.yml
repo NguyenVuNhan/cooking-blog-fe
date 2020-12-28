@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install Packages
+      - name: Install Yarn
         run: npm install -g yarn
       - name: Install Packages
         run: yarn install
@@ -34,7 +34,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
         with:
-          source: "./build"
+          source: "build"
           target: ${{ secrets.WORK_DIR }}
 
       - name: Executing remote command
