@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}
           port: ${{ secrets.PORT }}
-          source: "."
+          source: "build"
           target: ${{ secrets.WORK_DIR }}
 
       - name: Executing remote command
