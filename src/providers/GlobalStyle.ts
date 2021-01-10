@@ -1,4 +1,5 @@
 import { withStyles, Theme } from "@material-ui/core";
+import { FC } from "react";
 
 const styles = (theme: Theme) => ({
   "@global": {
@@ -150,6 +151,6 @@ const styles = (theme: Theme) => ({
   },
 });
 
-const GlobalStyles = () => null;
+const GlobalStyles: FC = () => null;
 
 export default withStyles(styles, { withTheme: true })(GlobalStyles);

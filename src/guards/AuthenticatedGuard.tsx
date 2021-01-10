@@ -1,21 +1,27 @@
-import React, { ComponentType } from "react";
+import React, { ComponentType, FC } from "react";
+import { useSelector } from "react-redux";
 import {
   Route,
   RouteProps,
   Redirect,
   RouteComponentProps,
 } from "react-router-dom";
+import { IRootState } from "reducers";
 
 interface Props extends RouteProps {
-  isAuthenticated: boolean | undefined;
   component: ComponentType<RouteComponentProps>;
 }
 
-const AuthenticatedGuard: React.FC<Props> = ({
+const AuthenticatedGuard: FC<Props> = ({
   component: Component,
-  isAuthenticated,
   ...rest
 }: Props) => {
+  const isAuthenticated = useSelector<IRootState, boolean>(
+    (state) => state.auth.authenticated
+  );
+
+  console.log(isAuthenticated);
+
   return (
     <Route
       {...rest}

@@ -1,19 +1,15 @@
 import React, { FunctionComponent } from "react";
-import { BrowserRouter, Redirect } from "react-router-dom";
-import { useAuthenticatedStatus } from "../hooks";
+import { BrowserRouter } from "react-router-dom";
 import AuthRoutes from "./AuthRoute";
 import HomeRoute from "./HomeRoute";
 import RecipeRoute from "./RecipeRoute";
 
 const MainRoute: FunctionComponent = () => {
-  const auth = useAuthenticatedStatus();
-
   return (
     <BrowserRouter>
+      <RecipeRoute />
       <AuthRoutes />
-      <RecipeRoute isAuthenticated={auth} />
       <HomeRoute />
-      {auth && <Redirect to="/" />}
     </BrowserRouter>
   );
 };

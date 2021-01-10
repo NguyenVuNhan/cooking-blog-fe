@@ -11,7 +11,6 @@ import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import StepFormGroup from "../components/StepFormGroup";
 import AddIngredientModal from "../components/AddIngredientModal";
-import firebase from "firebase";
 import { addRecipe } from "../recipes.actions";
 import { useHistory } from "react-router-dom";
 
@@ -47,7 +46,6 @@ const AddRecipe: React.FC = () => {
       return;
     }
 
-    const owner = firebase.auth().currentUser?.uid;
     data.steps = data.steps.map((step, index) => ({
       ...step,
       ingredients: stepIngredient.current[index],
@@ -56,7 +54,6 @@ const AddRecipe: React.FC = () => {
     addRecipe(
       {
         ...data,
-        owner,
       },
       () => {
         history.push("/");

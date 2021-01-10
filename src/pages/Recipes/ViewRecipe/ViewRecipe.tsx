@@ -4,8 +4,6 @@ import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState, FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
-import { getRecipe } from "firebase/recipe";
-import { useUserInfo } from "hooks";
 
 interface ParamTypes {
   id: string;
@@ -14,13 +12,13 @@ interface ParamTypes {
 const ViewRecipe: FunctionComponent = () => {
   const { id } = useParams<ParamTypes>();
   const [recipe, setRecipe] = useState<Recipe>();
-  const user = useUserInfo();
+  // const user = useUserInfo();
 
   useEffect(() => {
-    const s = getRecipe(id).subscribe(setRecipe);
+    // const s = getRecipe(id).subscribe(setRecipe);
 
     return () => {
-      s.unsubscribe();
+      // s.unsubscribe();
     };
   }, [id]);
 
@@ -78,13 +76,13 @@ const ViewRecipe: FunctionComponent = () => {
         </React.Fragment>
       ))}
 
-      {user?.uid === recipe.owner && (
-        <div className="w-100 d-flex justify-content-center">
-          <Button variant="contained" color="secondary">
-            Delete
-          </Button>
-        </div>
-      )}
+      {/* {user?.uid === recipe.owner && ( */}
+      {/*   <div className="w-100 d-flex justify-content-center"> */}
+      {/*     <Button variant="contained" color="secondary"> */}
+      {/*       Delete */}
+      {/*     </Button> */}
+      {/*   </div> */}
+      {/* )} */}
     </RecipeFeatureTemplate>
   );
 };

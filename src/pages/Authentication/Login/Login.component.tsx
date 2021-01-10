@@ -3,25 +3,23 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import AuthTemplate from "../../../components/templates/auth.template";
 
-const Login: FC = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const { handleSubmit, register } = useForm<LoginForm>();
+interface Props {
+  onLogin(data: LoginForm): void;
+}
 
-  const onSubmit = (data: LoginForm) => {
-    // signIn(data.email, data.password, () => history.push("/"));
-  };
+const Login: FC<Props> = ({ onLogin }) => {
+  const history = useHistory();
+  const { handleSubmit, register } = useForm<LoginForm>();
 
   const toRegister = () => history.push("/register");
   const toForgotPassword = () => history.push("/forgot-password");
 
   return (
     <AuthTemplate
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onLogin)}
       title="Login"
       subTitle="Login to your Cooking Blog account"
     >

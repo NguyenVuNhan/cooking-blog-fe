@@ -5,14 +5,13 @@ import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import AuthTemplate from "../../../components/templates/auth.template";
-import { signUp } from "../auth.actions";
 
 const Register: FC = () => {
   const history = useHistory();
   const { handleSubmit, register, errors, watch } = useForm<RegisterForm>();
 
   const onSubmit = (data: RegisterForm) => {
-    signUp(data.email, data.password, toLogin);
+    // signUp(data.email, data.password, toLogin);
   };
 
   const toLogin = () => history.push("/login");
