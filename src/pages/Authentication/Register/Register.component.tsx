@@ -6,19 +6,19 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import AuthTemplate from "../../../components/templates/auth.template";
 
-const Register: FC = () => {
+interface Props {
+  onRegister(data: RegisterForm): void;
+}
+
+const Register: FC<Props> = ({ onRegister }) => {
   const history = useHistory();
   const { handleSubmit, register, errors, watch } = useForm<RegisterForm>();
-
-  const onSubmit = (data: RegisterForm) => {
-    // signUp(data.email, data.password, toLogin);
-  };
 
   const toLogin = () => history.push("/login");
 
   return (
     <AuthTemplate
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onRegister)}
       title="Register"
       subTitle="Create new Cooking Blog account"
     >
