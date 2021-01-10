@@ -17,8 +17,8 @@ export const loginSuccess = (
 });
 
 export const loginFailure = (
-  payload: Record<string, unknown>
+  error: Record<string, unknown>
 ): types.LoginFailureAction => ({
   type: types.LOGIN_FAILURE,
-  payload,
+  error,
 });

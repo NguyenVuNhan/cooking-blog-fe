@@ -6,7 +6,7 @@ import {
   Redirect,
   RouteComponentProps,
 } from "react-router-dom";
-import { IRootState } from "reducers";
+import { IRootState } from "reducers/rootReducer";
 
 interface Props extends RouteProps {
   component: ComponentType<RouteComponentProps>;
@@ -19,8 +19,6 @@ const AuthenticatedGuard: FC<Props> = ({
   const isAuthenticated = useSelector<IRootState, boolean>(
     (state) => state.auth.authenticated
   );
-
-  console.log(isAuthenticated);
 
   return (
     <Route

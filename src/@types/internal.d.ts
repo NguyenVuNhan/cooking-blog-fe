@@ -12,3 +12,17 @@ interface BaseBody<T = any> {
   message: string;
   success: boolean;
 }
+
+interface BaseRequestAction<BaseType = string> {
+  type: BaseType;
+}
+
+interface BaseSuccessAction<BaseType = string, BasePayload = any> {
+  type: BaseType;
+  payload: BasePayload;
+}
+
+interface BaseFailureAction<BaseType = string, BaseError = any> {
+  type: BaseType;
+  error: BaseError;
+}

@@ -5,21 +5,19 @@ export interface LoginAction {
 }
 
 export const LOGIN_REQUEST = "auth/login/LOGIN_REQUEST";
-export interface LoginRequestAction {
-  type: typeof LOGIN_REQUEST;
-}
+export type LoginRequestAction = BaseRequestAction<typeof LOGIN_REQUEST>;
 
 export const LOGIN_SUCCESS = "auth/login/LOGIN_SUCCESS";
-export interface LoginSuccessAction {
-  type: typeof LOGIN_SUCCESS;
-  payload: Record<string, unknown>;
-}
+export type LoginSuccessAction = BaseSuccessAction<
+  typeof LOGIN_SUCCESS,
+  Record<string, unknown>
+>;
 
 export const LOGIN_FAILURE = "auth/login/LOGIN_FAILURE";
-export interface LoginFailureAction {
-  type: typeof LOGIN_FAILURE;
-  payload: Record<string, unknown>;
-}
+export type LoginFailureAction = BaseFailureAction<
+  typeof LOGIN_FAILURE,
+  Record<string, unknown>
+>;
 
 export type LoginActionType =
   | LoginAction
