@@ -16,7 +16,6 @@ function* onLogin({ payload }: types.LoginAction) {
   yield put(actions.loginRequest());
   try {
     const res: LoginResponseData = yield call(login, payload);
-    console.log(res);
 
     // validate response
     if (!res.success || !res.data.token) {
