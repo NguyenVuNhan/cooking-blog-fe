@@ -6,21 +6,19 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import AuthTemplate from "../../../components/templates/auth.template";
 
-const ForgotPassword: FC = () => {
+interface Props {
+  onForgotPassword(data: LoginForm): void;
+}
+
+const ForgotPassword: FC<Props> = ({ onForgotPassword }) => {
   const history = useHistory();
   const { handleSubmit, register } = useForm<ForgotPasswordForm>();
-
-  const onSubmit = (data: ForgotPasswordForm) => {
-    // TODO: login user
-    // eslint-disable-next-line no-console
-    console.log(data);
-  };
 
   const toLogin = () => history.push("/login");
 
   return (
     <AuthTemplate
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onForgotPassword)}
       title="Forgot password?"
       subTitle="We will send an email for you with link to reset password"
     >
