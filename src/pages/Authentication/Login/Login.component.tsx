@@ -22,6 +22,7 @@ const Login: FC<Props> = ({ onLogin }) => {
       onSubmit={handleSubmit(onLogin)}
       title="Login"
       subTitle="Login to your Cooking Blog account"
+      redirect="/home"
     >
       <Grid item xs={12}>
         <TextField

@@ -44,9 +44,7 @@ const AuthTemplate: FC<Props> = ({
 
   const _onSubmit: FormEventHandler = (...args) => {
     onSubmit(...args);
-    if (redirect) {
-      history.push(redirect);
-    }
+    history.push(redirect ? redirect : "/login");
   };
 
   return (
