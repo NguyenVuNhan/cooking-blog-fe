@@ -48,7 +48,7 @@ const AddIngredientGroup: FunctionComponent<Props> = ({
   });
 
   const deleteIngredient = (index: number) => () => remove(index);
-  const addIngredient = () => append({ name: "", amount: "" });
+  const addIngredient = () => append({ ingredient: "", quantity: "" });
   const onClose = () => {
     setOpen(false);
     if (ingredientsWatcher) {
@@ -56,7 +56,7 @@ const AddIngredientGroup: FunctionComponent<Props> = ({
       setIngredients(
         ingredientsWatcher.map((ingredient) => {
           append(ingredient);
-          return ingredient.name;
+          return ingredient.ingredient;
         })
       );
     }
@@ -87,9 +87,9 @@ const AddIngredientGroup: FunctionComponent<Props> = ({
               <Grid item sm={7}>
                 <TextField
                   label="ingredients"
-                  name={`ingredients[${index}].name`}
+                  name={`ingredients[${index}].ingredient`}
                   inputRef={register}
-                  defaultValue={ingredient.name}
+                  defaultValue={ingredient.ingredient}
                   fullWidth
                   margin="none"
                   size="small"
@@ -97,10 +97,10 @@ const AddIngredientGroup: FunctionComponent<Props> = ({
               </Grid>
               <Grid item sm={4}>
                 <TextField
-                  label="amount"
-                  name={`ingredients[${index}].amount`}
+                  label="quantity"
+                  name={`ingredients[${index}].quantity`}
                   inputRef={register}
-                  defaultValue={ingredient.amount}
+                  defaultValue={ingredient.quantity}
                   fullWidth
                   margin="none"
                   size="small"

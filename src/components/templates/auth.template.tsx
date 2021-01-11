@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React, { FC, FormEventHandler, ReactNode } from "react";
+import { useHistory } from "react-router-dom";
 import background from "../../assets/landing.jpg";
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
   onSubmit: FormEventHandler;
   title: string;
   subTitle: string;
+  redirect?: string;
 };
 
 const useStyle = makeStyles({
@@ -30,8 +32,22 @@ const useStyle = makeStyles({
   },
 });
 
-const AuthTemplate: FC<Props> = ({ children, onSubmit, title, subTitle }) => {
+const AuthTemplate: FC<Props> = ({
+  children,
+  onSubmit,
+  title,
+  subTitle,
+  redirect,
+}) => {
   const classes = useStyle();
+  const history = useHistory();
+
+  const _onSubmit: FormEventHandler = (...args) => {
+    onSubmit(...args);
+    if (redirect) {
+      history.push(redirect);
+    }
+  };
 
   return (
     <Container
@@ -42,7 +58,7 @@ const AuthTemplate: FC<Props> = ({ children, onSubmit, title, subTitle }) => {
       maxWidth={false}
       component="form"
       noValidate
-      onSubmit={onSubmit}
+      onSubmit={_onSubmit}
     >
       <Paper elevation={24}>
         <Grid container alignItems="flex-start" spacing={2}>

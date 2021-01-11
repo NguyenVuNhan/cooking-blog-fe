@@ -1,32 +1,22 @@
 interface RecipeStep {
-  id?: string;
-  description: string;
   ingredients: string[];
+  description: string;
+  duration: string;
 }
 type RecipeSteps = RecipeStep[];
 
 interface Ingredient {
-  name: string;
-  amount?: string;
+  ingredient: string;
+  quantity: string;
 }
 type Ingredients = Ingredient[];
 
 interface Recipe {
-  id?: string;
+  _id?: string;
   title: string;
-  owner?: string;
-  description?: string;
+  duration: string;
+  user: string;
   steps: RecipeSteps;
   ingredients: Ingredients;
-  duration: string;
 }
-
 type Recipes = Recipe[];
-
-interface RecipeListState {
-  firstInList: string | undefined;
-  recipeList: Recipes;
-  lastInList: string | undefined;
-  currentRecipe: Recipe | undefined;
-  loading: boolean;
-}

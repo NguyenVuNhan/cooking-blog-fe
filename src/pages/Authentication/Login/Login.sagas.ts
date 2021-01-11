@@ -18,7 +18,7 @@ function* onLogin({ payload }: types.LoginAction) {
     const res: LoginResponseData = yield call(login, payload);
 
     // validate response
-    if (!res.success || !res.data.token) {
+    if (!res.success || !res.data) {
       yield put(actions.loginFailure({ error: res.message }));
       return;
     }

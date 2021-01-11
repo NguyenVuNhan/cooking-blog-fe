@@ -4,7 +4,7 @@ import ToolBox from "../organism/Toolbox";
 
 const RecipeTemplate: FunctionComponent = ({ children }) => {
   return (
-    <Container className="position-relative" maxWidth="lg">
+    <Container className="position-relative vh-100" maxWidth="lg">
       <ToolBox />
       {children}
     </Container>

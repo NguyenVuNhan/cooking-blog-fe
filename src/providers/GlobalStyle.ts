@@ -84,6 +84,14 @@ const styles = (theme: Theme) => ({
       obj[`.h-${i}`] = { height: `${i}%` };
       return obj;
     }, {}),
+    ...[0, 25, 50, 75, 100].reduce(function (obj: Record<string, unknown>, i) {
+      obj[`.vw-${i}`] = { width: `${i}vw` };
+      return obj;
+    }, {}),
+    ...[0, 25, 50, 75, 100].reduce(function (obj: Record<string, unknown>, i) {
+      obj[`.vh-${i}`] = { height: `${i}vh` };
+      return obj;
+    }, {}),
 
     // Padding
     ".p-auto": { padding: "auto" },
