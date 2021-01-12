@@ -3,10 +3,7 @@ interface SearchForm {
 }
 
 interface RecipeForm {
-  id?: string;
   title: string;
-  owner?: string;
-  description?: string;
   steps: RecipeStep[];
   ingredients: Ingredients;
   duration: string;

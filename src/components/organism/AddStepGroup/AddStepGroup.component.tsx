@@ -29,7 +29,7 @@ const StepFormGroup: React.FC<Props> = ({
   });
 
   const removeStep = (index: number) => () => remove(index);
-  const addStep = () => append({ description: "" });
+  const addStep = () => append({ description: "", ingredients: [] });
 
   return (
     <>

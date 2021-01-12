@@ -2,6 +2,7 @@ import { searchSaga } from "components/molecules/Search";
 import { forgotPasswordSaga } from "pages/Authentication/ForgotPassword";
 import { loginSaga } from "pages/Authentication/Login";
 import { registerSaga } from "pages/Authentication/Register";
+import { addRecipeSaga } from "pages/Recipes/AddRecipe";
 import { getRecipeSaga } from "pages/Recipes/GetRecipe";
 import { all, AllEffect, fork, ForkEffect } from "redux-saga/effects";
 
@@ -12,5 +13,6 @@ export default function* rootSaga(): Generator<AllEffect<ForkEffect>> {
     fork(forgotPasswordSaga),
     fork(searchSaga),
     fork(getRecipeSaga),
+    fork(addRecipeSaga),
   ]);
 }

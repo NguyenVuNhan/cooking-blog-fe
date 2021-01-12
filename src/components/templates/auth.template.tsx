@@ -4,8 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
+import { forwardTo } from "helpers/router";
 import React, { FC, FormEventHandler, ReactNode } from "react";
-import { useHistory } from "react-router-dom";
 import background from "../../assets/landing.jpg";
 
 type Props = {
@@ -40,11 +40,10 @@ const AuthTemplate: FC<Props> = ({
   redirect,
 }) => {
   const classes = useStyle();
-  const history = useHistory();
 
   const _onSubmit: FormEventHandler = (...args) => {
     onSubmit(...args);
-    history.push(redirect ? redirect : "/login");
+    forwardTo(redirect ? redirect : "/login");
   };
 
   return (

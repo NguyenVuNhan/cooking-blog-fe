@@ -1,21 +1,20 @@
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import { forwardTo } from "helpers/router";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import AuthTemplate from "../../../components/templates/auth.template";
+import AuthTemplate from "components/templates/auth.template";
 
 interface Props {
   onLogin(data: LoginForm): void;
 }
 
 const Login: FC<Props> = ({ onLogin }) => {
-  const history = useHistory();
   const { handleSubmit, register } = useForm<LoginForm>();
 
-  const toRegister = () => history.push("/register");
-  const toForgotPassword = () => history.push("/forgot-password");
+  const toRegister = () => forwardTo("/register");
+  const toForgotPassword = () => forwardTo("/forgot-password");
 
   return (
     <AuthTemplate

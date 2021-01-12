@@ -1,64 +1,42 @@
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Alert from "@material-ui/lab/Alert";
-import AlertTitle from "@material-ui/lab/AlertTitle";
+import AddIngredientModal from "components/organism/AddIngredientModel";
+import AddStepGroup from "components/organism/AddStepGroup";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
-import { isEmpty } from "helpers/validates";
-import React, { useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import StepFormGroup from "../components/StepFormGroup";
-import AddIngredientModal from "../components/AddIngredientModal";
-import { addRecipe } from "../recipes.actions";
-import { useHistory } from "react-router-dom";
+import * as types from "./AddRecipe.types";
 
-const AddRecipe: React.FC = () => {
-  const history = useHistory();
-  const {
-    register,
-    errors,
-    setError,
-    control,
-    handleSubmit,
-  } = useForm<RecipeForm>({
+interface Props {
+  onAddRecipe: (stepIngredient: string[][]) => (data: RecipeForm) => void;
+  error?: types.AddRecipeFailureAction["error"];
+}
+
+const AddRecipe: FC<Props> = ({ error, onAddRecipe }) => {
+  const { register, errors, control, handleSubmit } = useForm<RecipeForm>({
     defaultValues: {
       steps: [],
       ingredients: [],
     },
   });
 
+  // Handle ingredients autosuggestion for each step
   const [ingredients, setIngredients] = useState<string[]>([]);
-  const [stepsError, setStepsError] = useState<string>("");
   const stepIngredient = useRef<string[][]>([]);
 
-  const onSubmit = (data: Recipe) => {
-    if (isEmpty(data.steps)) {
-      setStepsError("At least 1 step is required");
-      return;
-    }
-    if (isEmpty(ingredients)) {
-      setError("ingredients", {
-        type: "required",
-        message: "Ingredient is required",
-      });
-      return;
-    }
-
-    data.steps = data.steps.map((step, index) => ({
-      ...step,
-      ingredients: stepIngredient.current[index],
-    }));
-
-    addRecipe(
-      {
-        ...data,
-      },
-      () => {
-        history.push("/");
-      }
-    );
+  // Handle modal
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -69,7 +47,7 @@ const AddRecipe: React.FC = () => {
         noValidate
         component="form"
         spacing={3}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onAddRecipe(stepIngredient.current))}
       >
         <Grid item sm={12}>
           <Typography variant="h2" align="center" noWrap>
@@ -77,12 +55,12 @@ const AddRecipe: React.FC = () => {
           </Typography>
         </Grid>
         <Grid item sm={12}>
-          {stepsError && (
-            <Alert severity="error">
-              <AlertTitle>Error</AlertTitle>
-              {stepsError}
-            </Alert>
-          )}
+          {error &&
+            error.errors.map((e, index) => (
+              <Alert key={index} severity="error" className="mb-1">
+                {e.msg}
+              </Alert>
+            ))}
         </Grid>
         <Grid item sm={9}>
           <TextField
@@ -104,28 +82,28 @@ const AddRecipe: React.FC = () => {
             fullWidth
           />
         </Grid>
-        <Grid item sm={12}>
-          <TextField
-            name="description"
-            label="Description"
-            inputRef={register}
-            error={Boolean(errors.description)}
-            helperText={errors.description?.message}
-            fullWidth
-          />
-        </Grid>
 
         <Grid item sm={4} container spacing={3}>
-          <h3>
+          <h3 className="ml-2">
             Ingredients:
             {ingredients.map((ingredient: string, index: number) => (
               <Chip key={index} size="small" label={ingredient} />
             ))}
           </h3>
-          <AddIngredientModal {...{ control, setIngredients, register }} />
+          <IconButton color="primary" onClick={handleModalOpen}>
+            <AddCircleOutlineIcon />
+          </IconButton>
         </Grid>
 
-        <StepFormGroup
+        <AddIngredientModal
+          control={control}
+          register={register}
+          setIngredients={setIngredients}
+          open={modalOpen}
+          onClose={handleModalClose}
+        />
+
+        <AddStepGroup
           control={control}
           errors={errors}
           register={register}
