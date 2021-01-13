@@ -2,8 +2,8 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Container from "@material-ui/core/Container";
 import React, { FunctionComponent, ReactNode } from "react";
-import ToolBox from "../organism/Toolbox";
 import { useHistory } from "react-router-dom";
+import ToolBox from "components/organism/ToolBox";
 
 interface Props {
   children: ReactNode;
@@ -21,11 +21,11 @@ const RecipeFeatureTemplate: FunctionComponent<Props> = ({
   };
 
   return (
-    <Container className="position-relative" maxWidth="lg">
+    <Container maxWidth="lg">
+      {showToolBox && <ToolBox />}
       <IconButton onClick={goBack}>
         <ArrowBackIcon />
       </IconButton>
-      {showToolBox && <ToolBox />}
       {children}
     </Container>
   );

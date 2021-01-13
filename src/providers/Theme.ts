@@ -13,6 +13,13 @@ const theme = createMuiTheme({
   breakpoints: {
     values: breakPoints,
   },
+  overrides: {
+    MuiSpeedDialAction: {
+      staticTooltipLabel: {
+        whiteSpace: "nowrap",
+      },
+    },
+  },
 });
 
 export default responsiveFontSizes(theme);

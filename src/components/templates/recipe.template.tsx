@@ -1,10 +1,10 @@
 import Container from "@material-ui/core/Container";
 import React, { FunctionComponent } from "react";
-import ToolBox from "../organism/Toolbox";
+import ToolBox from "../organism/ToolBox";
 
 const RecipeTemplate: FunctionComponent = ({ children }) => {
   return (
-    <Container className="position-relative vh-100" maxWidth="lg">
+    <Container maxWidth="lg">
       <ToolBox />
       {children}
     </Container>
