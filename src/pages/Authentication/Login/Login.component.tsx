@@ -5,6 +5,8 @@ import { forwardTo } from "helpers/router";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import AuthTemplate from "components/templates/auth.template";
+import * as types from "./Login.types";
+import ErrorBadge from "components/molecules/ErrorBadge";
 
 interface Props {
   onLogin(data: LoginForm): void;
@@ -21,8 +23,10 @@ const Login: FC<Props> = ({ onLogin }) => {
       onSubmit={handleSubmit(onLogin)}
       title="Login"
       subTitle="Login to your Cooking Blog account"
-      redirect="/home"
     >
+      <Grid item sm={12}>
+        <ErrorBadge type={types.LOGIN} />
+      </Grid>
       <Grid item xs={12}>
         <TextField
           fullWidth

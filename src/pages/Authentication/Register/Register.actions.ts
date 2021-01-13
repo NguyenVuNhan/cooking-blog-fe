@@ -10,14 +10,14 @@ export const registerRequest = (): types.RegisterRequestAction => ({
 });
 
 export const registerSuccess = (
-  payload: Record<string, unknown>
+  payload: BasePayload
 ): types.RegisterSuccessAction => ({
   type: types.REGISTER_SUCCESS,
   payload,
 });
 
 export const registerFailure = (
-  error: Record<string, unknown>
+  error: BaseError
 ): types.RegisterFailureAction => ({
   type: types.REGISTER_FAILURE,
   error,

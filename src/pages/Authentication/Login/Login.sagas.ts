@@ -1,3 +1,4 @@
+import { forwardTo } from "helpers/router";
 import { setAuthToken } from "helpers/Token";
 import {
   all,
@@ -19,7 +20,9 @@ function* onLogin({ payload }: types.LoginAction) {
 
     // validate response
     if (!res.success || !res.data) {
-      yield put(actions.loginFailure({ error: res.message }));
+      yield put(
+        actions.loginFailure({ errors: [{ msg: res.message, param: "Error" }] })
+      );
       return;
     }
 
@@ -29,6 +32,7 @@ function* onLogin({ payload }: types.LoginAction) {
 
     // Success
     yield put(actions.loginSuccess(res.data.user));
+    forwardTo("/home");
   } catch (err) {
     yield put(actions.loginFailure(err.response.data.data));
   }

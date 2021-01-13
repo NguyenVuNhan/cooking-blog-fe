@@ -10,15 +10,13 @@ export const loginRequest = (): types.LoginRequestAction => ({
 });
 
 export const loginSuccess = (
-  payload: Record<string, unknown>
+  payload: BasePayload
 ): types.LoginSuccessAction => ({
   type: types.LOGIN_SUCCESS,
   payload,
 });
 
-export const loginFailure = (
-  error: Record<string, unknown>
-): types.LoginFailureAction => ({
+export const loginFailure = (error: BaseError): types.LoginFailureAction => ({
   type: types.LOGIN_FAILURE,
   error,
 });

@@ -1,3 +1,4 @@
+import { forwardTo } from "helpers/router";
 import {
   all,
   AllEffect,
@@ -18,12 +19,17 @@ function* onRegister({ payload }: types.RegisterAction) {
 
     // validate response
     if (!res.success || !res.data) {
-      yield put(actions.registerFailure({ error: res.message }));
+      yield put(
+        actions.registerFailure({
+          errors: [{ msg: res.message, param: "error" }],
+        })
+      );
       return;
     }
 
     // Success
     yield put(actions.registerSuccess(res.data.user));
+    forwardTo("/login");
   } catch (err) {
     yield put(actions.registerFailure(err.response.data.data));
   }

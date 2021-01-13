@@ -1,10 +1,12 @@
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import ErrorBadge from "components/molecules/ErrorBadge";
 import { toLogin } from "helpers/router";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import AuthTemplate from "../../../components/templates/auth.template";
+import * as types from "./Register.types";
 
 interface Props {
   onRegister(data: RegisterForm): void;
@@ -19,6 +21,9 @@ const Register: FC<Props> = ({ onRegister }) => {
       title="Register"
       subTitle="Create new Cooking Blog account"
     >
+      <Grid item sm={12}>
+        <ErrorBadge type={types.REGISTER} />
+      </Grid>
       <Grid item xs={12}>
         <TextField
           fullWidth
@@ -63,12 +68,12 @@ const Register: FC<Props> = ({ onRegister }) => {
             validate: (value) =>
               value === watch("password") || "The passwords do not match",
           })}
-          name="cPassword"
+          name="cpassword"
           label="Confirm Password"
           variant="outlined"
           type="password"
-          error={Boolean(errors.cPassword)}
-          helperText={errors.cPassword && errors.cPassword.message}
+          error={Boolean(errors.cpassword)}
+          helperText={errors.cpassword && errors.cpassword.message}
         />
       </Grid>
       <Grid

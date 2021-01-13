@@ -11,14 +11,12 @@ export type AddRecipeRequestAction = BaseRequestAction<
 
 export const ADD_RECIPE_SUCCESS = "recipe/addRecipe/ADD_RECIPE_SUCCESS";
 export type AddRecipeSuccessAction = BaseSuccessAction<
-  typeof ADD_RECIPE_SUCCESS,
-  Record<string, unknown>
+  typeof ADD_RECIPE_SUCCESS
 >;
 
 export const ADD_RECIPE_FAILURE = "recipe/addRecipe/ADD_RECIPE_FAILURE";
 export type AddRecipeFailureAction = BaseFailureAction<
-  typeof ADD_RECIPE_FAILURE,
-  { errors: { msg: string; param: string }[] }
+  typeof ADD_RECIPE_FAILURE
 >;
 
 export type AddRecipeActionType =

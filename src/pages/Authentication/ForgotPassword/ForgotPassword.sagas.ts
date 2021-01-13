@@ -1,3 +1,4 @@
+import { forwardTo } from "helpers/router";
 import {
   all,
   AllEffect,
@@ -24,6 +25,7 @@ function* onForgotPassword({ payload }: types.ForgotPasswordAction) {
 
     // Success
     yield put(actions.forgotPasswordSuccess(res.data.user));
+    forwardTo("/login");
   } catch (err) {
     yield put(actions.forgotPasswordFailure(err.response.data.data));
   }

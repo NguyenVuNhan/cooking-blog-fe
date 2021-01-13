@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
-import { forwardTo } from "helpers/router";
 import React, { FC, FormEventHandler, ReactNode } from "react";
 import background from "../../assets/landing.jpg";
 
@@ -13,7 +12,6 @@ type Props = {
   onSubmit: FormEventHandler;
   title: string;
   subTitle: string;
-  redirect?: string;
 };
 
 const useStyle = makeStyles({
@@ -32,18 +30,11 @@ const useStyle = makeStyles({
   },
 });
 
-const AuthTemplate: FC<Props> = ({
-  children,
-  onSubmit,
-  title,
-  subTitle,
-  redirect,
-}) => {
+const AuthTemplate: FC<Props> = ({ children, onSubmit, title, subTitle }) => {
   const classes = useStyle();
 
   const _onSubmit: FormEventHandler = (...args) => {
     onSubmit(...args);
-    forwardTo(redirect ? redirect : "/login");
   };
 
   return (

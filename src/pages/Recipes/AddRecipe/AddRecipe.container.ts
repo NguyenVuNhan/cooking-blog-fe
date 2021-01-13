@@ -1,14 +1,8 @@
 import { connect } from "react-redux";
-import { IRootState } from "reducers/rootReducer";
 import { Dispatch } from "redux";
+import { addRecipe } from "./AddRecipe.actions";
 import AddRecipeComponent from "./AddRecipe.component";
 import { AddRecipeActionType } from "./AddRecipe.types";
-import * as types from "./AddRecipe.types";
-import { addRecipe } from "./AddRecipe.actions";
-
-const mapStateToProps = (state: IRootState) => ({
-  error: state.error[types.ADD_RECIPE],
-});
 
 const mapDispatchToProps = (dispatch: Dispatch<AddRecipeActionType>) => ({
   onAddRecipe: (stepIngredient: string[][]) => (data: RecipeForm) => {
@@ -23,4 +17,4 @@ const mapDispatchToProps = (dispatch: Dispatch<AddRecipeActionType>) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddRecipeComponent);
+export default connect(null, mapDispatchToProps)(AddRecipeComponent);

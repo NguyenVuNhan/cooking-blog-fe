@@ -1,12 +1,15 @@
 import { loginTypes } from "pages/Authentication/Login";
+import { registerTypes } from "pages/Authentication/Register";
 import { addRecipeTypes } from "pages/Recipes/AddRecipe";
 
-type ErrorAction =
+export type ErrorAction =
   | loginTypes.LoginFailureAction
+  | registerTypes.RegisterFailureAction
   | addRecipeTypes.AddRecipeFailureAction;
 
 export interface ErrorState {
   [loginTypes.LOGIN]?: loginTypes.LoginFailureAction["error"];
+  [registerTypes.REGISTER]?: registerTypes.RegisterFailureAction["error"];
   [addRecipeTypes.ADD_RECIPE]?: addRecipeTypes.AddRecipeFailureAction["error"];
 }
 

@@ -5,7 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import Alert from "@material-ui/lab/Alert";
+import ErrorBadge from "components/molecules/ErrorBadge";
 import AddIngredientModal from "components/organism/AddIngredientModel";
 import AddStepGroup from "components/organism/AddStepGroup";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
@@ -15,10 +15,9 @@ import * as types from "./AddRecipe.types";
 
 interface Props {
   onAddRecipe: (stepIngredient: string[][]) => (data: RecipeForm) => void;
-  error?: types.AddRecipeFailureAction["error"];
 }
 
-const AddRecipe: FC<Props> = ({ error, onAddRecipe }) => {
+const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
   const { register, errors, control, handleSubmit } = useForm<RecipeForm>({
     defaultValues: {
       steps: [],
@@ -55,12 +54,7 @@ const AddRecipe: FC<Props> = ({ error, onAddRecipe }) => {
           </Typography>
         </Grid>
         <Grid item sm={12}>
-          {error &&
-            error.errors.map((e, index) => (
-              <Alert key={index} severity="error" className="mb-1">
-                {e.msg}
-              </Alert>
-            ))}
+          <ErrorBadge type={types.ADD_RECIPE} />
         </Grid>
         <Grid item sm={9}>
           <TextField
