@@ -21,10 +21,30 @@ export const getRecipe = async (id: string): Promise<GetRecipeResponseData> => {
   return res.data;
 };
 
+export type DeleteRecipeResponseData = BaseBody<{ id: string; title: string }>;
+export const deleteRecipe = async (
+  id: string
+): Promise<AddRecipeResponseData> => {
+  const res = await axios.delete<DeleteRecipeResponseData>(`/api/recipe/${id}`);
+  return res.data;
+};
+
 export type AddRecipeResponseData = BaseBody;
 export const addRecipe = async (
   data: RecipeForm
 ): Promise<AddRecipeResponseData> => {
   const res = await axios.post<AddRecipeResponseData>(`/api/recipe`, data);
+  return res.data;
+};
+
+export type UpdateRecipeResponseData = BaseBody<{ id: string; title: string }>;
+export const updateRecipe = async (
+  id: string,
+  data: Partial<RecipeForm>
+): Promise<UpdateRecipeResponseData> => {
+  const res = await axios.post<UpdateRecipeResponseData>(
+    `/api/recipe/${id}`,
+    data
+  );
   return res.data;
 };

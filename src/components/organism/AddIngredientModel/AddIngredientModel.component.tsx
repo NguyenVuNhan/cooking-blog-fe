@@ -1,24 +1,26 @@
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteIcon from "@material-ui/icons/Delete";
+import clsx from "clsx";
 import ModalTemplate from "components/templates/modal.template";
-import React, { Dispatch, FC, Fragment, SetStateAction } from "react";
+import React, { FC, Fragment } from "react";
 import { useFieldArray, UseFormMethods, useWatch } from "react-hook-form";
 import useStyle from "./AddIngredientModel.style";
 
 interface Props extends Pick<UseFormMethods, "control" | "register"> {
-  setIngredients: Dispatch<SetStateAction<string[]>>;
   open: boolean;
-  onClose?: () => void;
+  handleClose: () => void;
+  handleSave?: (ingredients: Ingredients) => void;
 }
 
-const AddIngredientGroup: FC<Props> = ({
+const AddIngredientModel: FC<Props> = ({
   control,
-  onClose,
-  setIngredients,
+  handleClose,
+  handleSave,
   register,
   open,
 }) => {
@@ -36,28 +38,23 @@ const AddIngredientGroup: FC<Props> = ({
   const deleteIngredient = (index: number) => () => remove(index);
   const addIngredient = () => append({ ingredient: "", quantity: "" });
 
-  const _onClose = () => {
-    onClose && onClose();
-
+  const _handleSave = () => {
+    handleClose();
     if (ingredientsWatcher) {
       remove();
-      setIngredients(
-        ingredientsWatcher.map((ingredient) => {
-          append(ingredient);
-          return ingredient.ingredient;
-        })
-      );
+      ingredientsWatcher.forEach((val) => append(val));
     }
+    handleSave && handleSave(ingredientsWatcher || []);
   };
 
   return (
-    <ModalTemplate title="Add Ingredient" open={open} onClose={_onClose}>
+    <ModalTemplate title="Add Ingredient" open={open} onClose={handleClose}>
       <Grid
         item
         container
         sm={12}
         alignItems="center"
-        className={classes.title}
+        className={clsx(classes.title, "mb-2")}
       >
         <Typography>Ingredients</Typography>
         <IconButton color="primary" onClick={addIngredient}>
@@ -97,8 +94,29 @@ const AddIngredientGroup: FC<Props> = ({
           </Grid>
         </Fragment>
       ))}
+      <Grid item sm={12} container alignItems="flex-end" spacing={3}>
+        <Grid item container sm={6} justify="center">
+          <Button
+            className={classes.actionBtn}
+            variant="contained"
+            color="primary"
+            onClick={_handleSave}
+          >
+            Save
+          </Button>
+        </Grid>
+        <Grid item container sm={6} justify="center">
+          <Button
+            className={classes.actionBtn}
+            variant="contained"
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+        </Grid>
+      </Grid>
     </ModalTemplate>
   );
 };
 
-export default AddIngredientGroup;
+export default AddIngredientModel;

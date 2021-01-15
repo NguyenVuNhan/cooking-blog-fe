@@ -1,10 +1,11 @@
 import { loginTypes } from "pages/Authentication/Login";
 
 export interface AuthState {
+  user?: IUser;
   authenticated: boolean;
 }
 
-type AuthActionType = loginTypes.LoginSuccessAction;
+type AuthActionType = loginTypes.LoginActionType;
 
 const initialState: AuthState = {
   authenticated: false,
@@ -15,8 +16,11 @@ const authReducer = (
   action: AuthActionType
 ): AuthState => {
   switch (action.type) {
+    case loginTypes.LOGIN_REQUEST:
+    case loginTypes.LOGIN_FAILURE:
+      return { authenticated: false };
     case loginTypes.LOGIN_SUCCESS:
-      return { ...state, authenticated: true };
+      return { ...state, authenticated: true, user: action.payload };
     default:
       return state;
   }

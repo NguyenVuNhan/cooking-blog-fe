@@ -9,9 +9,7 @@ export const loginRequest = (): types.LoginRequestAction => ({
   type: types.LOGIN_REQUEST,
 });
 
-export const loginSuccess = (
-  payload: BasePayload
-): types.LoginSuccessAction => ({
+export const loginSuccess = (payload: IUser): types.LoginSuccessAction => ({
   type: types.LOGIN_SUCCESS,
   payload,
 });

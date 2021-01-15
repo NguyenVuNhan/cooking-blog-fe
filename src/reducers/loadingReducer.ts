@@ -1,9 +1,13 @@
 import { loginTypes } from "pages/Authentication/Login";
+import { recipeTypes } from "pages/Recipe";
 
-type LoadingAction = loginTypes.LoginRequestAction;
+type LoadingAction =
+  | loginTypes.LoginRequestAction
+  | recipeTypes.GetRecipeRequestAction;
 
 export interface LoadingState {
   [loginTypes.LOGIN]?: boolean;
+  [recipeTypes.GET_RECIPE]?: boolean;
 }
 
 const getErrorMatches = (actionType: string) =>

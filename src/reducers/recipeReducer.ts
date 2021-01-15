@@ -1,6 +1,6 @@
 import { searchTypes } from "components/molecules/Search";
-import { getRecipeTypes } from "pages/Recipes/GetRecipe";
-import { GET_RECIPE_SUCCESS } from "pages/Recipes/GetRecipe/GetRecipe.types";
+import { recipeTypes } from "pages/Recipe";
+import { GET_RECIPE_SUCCESS } from "pages/Recipe/Recipe.types";
 
 export interface RecipeState {
   recipes: Recipes;
@@ -8,7 +8,7 @@ export interface RecipeState {
 }
 
 type RecipeActionType =
-  | getRecipeTypes.GetRecipeActionType
+  | recipeTypes.RecipeActionType
   | searchTypes.SearchActionType;
 
 const initialState: RecipeState = {

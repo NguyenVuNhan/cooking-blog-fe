@@ -1,6 +1,6 @@
 import { loginTypes } from "pages/Authentication/Login";
 import { registerTypes } from "pages/Authentication/Register";
-import { addRecipeTypes } from "pages/Recipes/AddRecipe";
+import { addRecipeTypes } from "pages/AddRecipe";
 
 export type ErrorAction =
   | loginTypes.LoginFailureAction

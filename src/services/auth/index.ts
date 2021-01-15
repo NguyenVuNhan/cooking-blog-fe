@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export type LoginResponseData = BaseBody<{
-  user: { email: string };
+  user: IUser;
   token: string;
 }>;
 export const login = async (user: LoginForm): Promise<LoginResponseData> => {

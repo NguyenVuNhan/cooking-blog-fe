@@ -37,6 +37,9 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
   const handleModalClose = () => {
     setModalOpen(false);
   };
+  const handleModalSave = (ingredients: Ingredients) => {
+    setIngredients(ingredients.map((val) => val.ingredient));
+  };
 
   return (
     <RecipeFeatureTemplate showToolBox={false}>
@@ -92,9 +95,9 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
         <AddIngredientModal
           control={control}
           register={register}
-          setIngredients={setIngredients}
           open={modalOpen}
-          onClose={handleModalClose}
+          handleClose={handleModalClose}
+          handleSave={handleModalSave}
         />
 
         <AddStepGroup

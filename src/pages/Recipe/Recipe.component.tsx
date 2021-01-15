@@ -1,15 +1,32 @@
+import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
+import EditIngredientModel from "components/organism/EditIngredientModel";
 
 interface Props {
+  isOwner: boolean;
+  deleteRecipe: () => void;
   recipe: Recipe;
+  updateRecipe: (data: Partial<RecipeForm>) => void;
 }
 
-const ViewRecipe: FC<Props> = ({ recipe }) => {
+const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
+  const [ingredientModalOpen, setIngredientModalOpen] = useState<boolean>(
+    false
+  );
+
   return (
     <RecipeFeatureTemplate>
+      <EditIngredientModel
+        defaultIngredients={recipe.ingredients}
+        open={ingredientModalOpen}
+        handleClose={() => setIngredientModalOpen(false)}
+        onUpdate={updateRecipe}
+      />
       <Typography variant="h2" align="center" noWrap>
         {recipe.title}
       </Typography>
@@ -18,12 +35,22 @@ const ViewRecipe: FC<Props> = ({ recipe }) => {
       </Typography>
       <Typography variant="h4" align="left" noWrap>
         Ingredients
+        {isOwner && (
+          <span>
+            <IconButton
+              size="small"
+              onClick={() => setIngredientModalOpen(true)}
+            >
+              <EditIcon fontSize="inherit" />
+            </IconButton>
+          </span>
+        )}
       </Typography>
       <ul>
         {recipe.ingredients.map((value, index) => (
           <li key={index}>
             <p>
-              {value.ingredient} {value.quantity}
+              {value.ingredient} - {value.quantity}
             </p>
           </li>
         ))}
@@ -34,7 +61,12 @@ const ViewRecipe: FC<Props> = ({ recipe }) => {
       {recipe.steps.map((step, index) => (
         <React.Fragment key={index}>
           <Typography variant="h6" align="left" noWrap>
-            Step {index + 1}:
+            Step {index + 1}:{" "}
+            <span>
+              <IconButton size="small">
+                <EditIcon fontSize="inherit" />
+              </IconButton>
+            </span>
           </Typography>
           <p className="font-weight-bold">
             Ingredients
@@ -54,15 +86,15 @@ const ViewRecipe: FC<Props> = ({ recipe }) => {
         </React.Fragment>
       ))}
 
-      {/* {user?.uid === recipe.owner && ( */}
-      {/*   <div className="w-100 d-flex justify-content-center"> */}
-      {/*     <Button variant="contained" color="secondary"> */}
-      {/*       Delete */}
-      {/*     </Button> */}
-      {/*   </div> */}
-      {/* )} */}
+      {isOwner && (
+        <div className="w-100 d-flex justify-content-center">
+          <Button variant="contained" color="secondary" onClick={deleteRecipe}>
+            Delete
+          </Button>
+        </div>
+      )}
     </RecipeFeatureTemplate>
   );
 };
 
-export default ViewRecipe;
+export default Recipe;

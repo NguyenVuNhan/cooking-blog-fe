@@ -1,16 +1,16 @@
-import GetRecipe from "pages/Recipes/GetRecipe";
+import AddRecipe from "pages/AddRecipe";
+import Recipe from "pages/Recipe";
 import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 import AuthenticatedGuard from "../guards/AuthenticatedGuard";
-import AddRecipe from "../pages/Recipes/AddRecipe";
-import SearchRecipe from "../pages/Recipes/SearchRecipe";
+import Recipes from "../pages/Recipes";
 
 const RecipeRoute: FC = () => {
   return (
     <Switch>
       <AuthenticatedGuard exact path="/recipe/add" component={AddRecipe} />
-      <Route exact path="/recipe/search(.*)" component={SearchRecipe} />
-      <Route exact path="/recipe/:id" component={GetRecipe} />
+      <Route exact path="/recipe/search(.*)" component={Recipes} />
+      <Route exact path="/recipe/:id" component={Recipe} />
     </Switch>
   );
 };

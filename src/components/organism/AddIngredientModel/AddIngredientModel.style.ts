@@ -9,6 +9,9 @@ const useStyle = makeStyles({
       paddingBottom: "0 !important",
     },
   },
+  actionBtn: {
+    width: 20,
+  },
 });
 
 export default useStyle;
