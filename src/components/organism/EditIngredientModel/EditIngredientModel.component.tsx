@@ -14,7 +14,6 @@ const EditIngredientModel: FC<Props> = ({
   onUpdate,
   ...rest
 }) => {
-  console.log(defaultIngredients);
   const { register, control } = useForm<Pick<RecipeForm, "ingredients">>({
     defaultValues: {
       ingredients: defaultIngredients,
