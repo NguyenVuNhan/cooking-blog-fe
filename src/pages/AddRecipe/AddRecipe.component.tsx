@@ -92,14 +92,6 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
           </IconButton>
         </Grid>
 
-        <AddIngredientModal
-          control={control}
-          register={register}
-          open={modalOpen}
-          handleClose={handleModalClose}
-          handleSave={handleModalSave}
-        />
-
         <AddStepGroup
           control={control}
           errors={errors}
@@ -113,6 +105,14 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
           </Button>
         </Grid>
       </Grid>
+
+      <AddIngredientModal
+        control={control}
+        register={register}
+        open={modalOpen}
+        handleClose={handleModalClose}
+        handleSave={handleModalSave}
+      />
     </RecipeFeatureTemplate>
   );
 };
