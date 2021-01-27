@@ -33,7 +33,7 @@ const StepFormGroup: React.FC<Props> = ({
 
   return (
     <>
-      {fields.map((_item, index) => (
+      {fields.map((step, index) => (
         <React.Fragment key={index}>
           <Grid item sm={12} className="d-flex align-items-center">
             <Typography variant="h6">Step: {index + 1}</Typography>
@@ -47,6 +47,7 @@ const StepFormGroup: React.FC<Props> = ({
               name={`steps[${index}].description`}
               label="Description"
               inputRef={register({ required: "Description required" })}
+              defaultValue={step.description}
               error={Boolean(errors.steps && errors.steps[index]?.description)}
               helperText={
                 errors.steps && errors.steps[index]?.description?.message
@@ -63,6 +64,7 @@ const StepFormGroup: React.FC<Props> = ({
               }}
               id="tags-filled"
               options={ingredients}
+              defaultValue={step.ingredients}
               renderTags={(value: string[], getTagProps) =>
                 value.map((option: string, index: number) => (
                   <Chip

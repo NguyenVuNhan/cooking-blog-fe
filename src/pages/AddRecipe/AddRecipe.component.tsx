@@ -42,78 +42,80 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
   };
 
   return (
-    <RecipeFeatureTemplate showToolBox={false}>
-      <Grid
-        container
-        alignItems="flex-start"
-        noValidate
-        component="form"
-        spacing={3}
-        onSubmit={handleSubmit(onAddRecipe(stepIngredient.current))}
-      >
-        <Grid item sm={12}>
-          <Typography variant="h2" align="center" noWrap>
-            Add New Recipe
-          </Typography>
-        </Grid>
-        <Grid item sm={12}>
-          <ErrorBadge type={types.ADD_RECIPE} />
-        </Grid>
-        <Grid item sm={9}>
-          <TextField
-            name="title"
-            inputRef={register({ required: "Title is required" })}
-            error={Boolean(errors.title)}
-            helperText={errors.title?.message}
-            label="Title"
-            fullWidth
+    <>
+      <RecipeFeatureTemplate showToolBox={false}>
+        <Grid
+          container
+          alignItems="flex-start"
+          noValidate
+          component="form"
+          spacing={3}
+          onSubmit={handleSubmit(onAddRecipe(stepIngredient.current))}
+        >
+          <Grid item sm={12}>
+            <Typography variant="h2" align="center" noWrap>
+              Add New Recipe
+            </Typography>
+          </Grid>
+          <Grid item sm={12}>
+            <ErrorBadge type={types.ADD_RECIPE} />
+          </Grid>
+          <Grid item sm={9}>
+            <TextField
+              name="title"
+              inputRef={register({ required: "Title is required" })}
+              error={Boolean(errors.title)}
+              helperText={errors.title?.message}
+              label="Title"
+              fullWidth
+            />
+          </Grid>
+          <Grid item sm={3}>
+            <TextField
+              name="duration"
+              label="Duration"
+              inputRef={register({ required: "Duration is required" })}
+              error={Boolean(errors.duration)}
+              helperText={errors.duration?.message}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item sm={4} container spacing={3}>
+            <h3 className="ml-2">
+              Ingredients:
+              {ingredients.map((ingredient: string, index: number) => (
+                <Chip key={index} size="small" label={ingredient} />
+              ))}
+            </h3>
+            <IconButton color="primary" onClick={handleModalOpen}>
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </Grid>
+
+          <AddStepGroup
+            control={control}
+            errors={errors}
+            register={register}
+            ingredients={ingredients}
+            stepIngredient={stepIngredient.current}
           />
+          <Grid item container sm={12}>
+            <Button color="primary" variant="contained" type="submit">
+              Submit
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item sm={3}>
-          <TextField
-            name="duration"
-            label="Duration"
-            inputRef={register({ required: "Duration is required" })}
-            error={Boolean(errors.duration)}
-            helperText={errors.duration?.message}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item sm={4} container spacing={3}>
-          <h3 className="ml-2">
-            Ingredients:
-            {ingredients.map((ingredient: string, index: number) => (
-              <Chip key={index} size="small" label={ingredient} />
-            ))}
-          </h3>
-          <IconButton color="primary" onClick={handleModalOpen}>
-            <AddCircleOutlineIcon />
-          </IconButton>
-        </Grid>
-
-        <AddStepGroup
-          control={control}
-          errors={errors}
-          register={register}
-          ingredients={ingredients}
-          stepIngredient={stepIngredient.current}
-        />
-        <Grid item container sm={12}>
-          <Button color="primary" variant="contained" type="submit">
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
-
+      </RecipeFeatureTemplate>
       <AddIngredientModal
+        title="Add Ingredient"
         control={control}
         register={register}
         open={modalOpen}
         handleClose={handleModalClose}
         handleSave={handleModalSave}
       />
-    </RecipeFeatureTemplate>
+    </>
   );
 };
 

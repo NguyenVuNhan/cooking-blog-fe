@@ -1,3 +1,4 @@
+import { forwardTo } from "helpers/router";
 import {
   all,
   AllEffect,
@@ -28,6 +29,7 @@ function* onAddRecipe({ payload }: types.AddRecipeAction) {
 
     // Success
     yield put(actions.addRecipeSuccess(res.data.user));
+    forwardTo("/");
   } catch (err) {
     yield put(actions.addRecipeFailure(err.response.data.data));
   }

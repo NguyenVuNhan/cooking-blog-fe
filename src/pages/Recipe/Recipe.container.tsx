@@ -37,9 +37,9 @@ const GetRecipeContainer: FC<Props> = ({
   };
 
   // TODO: Replace by loading component
-  if (!recipe) return <div>Loading...</div>;
-
-  return (
+  return !recipe || recipe._id !== id ? (
+    <div>Loading...</div>
+  ) : (
     <GetRecipeComponent
       updateRecipe={updateRecipe}
       recipe={recipe}

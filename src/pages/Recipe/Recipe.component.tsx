@@ -3,9 +3,9 @@ import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
 import React, { FC, useState } from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import IconButton from "@material-ui/core/IconButton";
-import EditIngredientModel from "components/organism/EditIngredientModel";
+import EditIngredientModal from "components/organism/EditIngredientModel";
+import EditButton from "components/atoms/EditButton";
+import EditStepGroup from "components/organism/EditStepGroup";
 
 interface Props {
   isOwner: boolean;
@@ -15,16 +15,15 @@ interface Props {
 }
 
 const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
-  const [ingredientModalOpen, setIngredientModalOpen] = useState<boolean>(
-    false
-  );
+  const [ingredientEdit, setIngredientEdit] = useState<boolean>(false);
+  const [stepEdit, setStepEdit] = useState<boolean>(false);
 
   return (
     <RecipeFeatureTemplate>
-      <EditIngredientModel
+      <EditIngredientModal
         defaultIngredients={recipe.ingredients}
-        open={ingredientModalOpen}
-        handleClose={() => setIngredientModalOpen(false)}
+        open={ingredientEdit}
+        handleClose={() => setIngredientEdit(false)}
         onUpdate={updateRecipe}
       />
       <Typography variant="h2" align="center" noWrap>
@@ -35,16 +34,10 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
       </Typography>
       <Typography variant="h4" align="left" noWrap>
         Ingredients
-        {isOwner && (
-          <span>
-            <IconButton
-              size="small"
-              onClick={() => setIngredientModalOpen(true)}
-            >
-              <EditIcon fontSize="inherit" />
-            </IconButton>
-          </span>
-        )}
+        <EditButton
+          show={isOwner && !ingredientEdit}
+          onClick={() => setIngredientEdit(true)}
+        />
       </Typography>
       <ul>
         {recipe.ingredients.map((value, index) => (
@@ -57,36 +50,43 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
       </ul>
       <Typography variant="h4" align="left" noWrap>
         Steps
+        <EditButton
+          show={isOwner && !stepEdit}
+          onClick={() => setStepEdit(true)}
+        />
       </Typography>
-      {recipe.steps.map((step, index) => (
-        <React.Fragment key={index}>
-          <Typography variant="h6" align="left" noWrap>
-            Step {index + 1}:{" "}
-            <span>
-              <IconButton size="small">
-                <EditIcon fontSize="inherit" />
-              </IconButton>
-            </span>
-          </Typography>
-          <p className="font-weight-bold">
-            Ingredients
-            {step.ingredients.map((ingredient, index) => (
-              <Chip
-                key={index}
-                className="ml-1"
-                size="small"
-                color="primary"
-                component="span"
-                label={ingredient}
-              />
-            ))}
-          </p>
-          <p className="font-weight-bold">Description</p>
-          <p>{step.description}</p>
-        </React.Fragment>
-      ))}
+      {stepEdit ? (
+        <EditStepGroup
+          recipe={recipe}
+          onUpdate={updateRecipe}
+          handleClose={() => setStepEdit(false)}
+        />
+      ) : (
+        recipe.steps.map((step, index) => (
+          <React.Fragment key={index}>
+            <Typography variant="h6" align="left" noWrap>
+              Step {index + 1}:
+            </Typography>
+            <p className="font-weight-bold">
+              Ingredients
+              {step.ingredients.map((ingredient, index) => (
+                <Chip
+                  key={index}
+                  className="ml-1"
+                  size="small"
+                  color="primary"
+                  component="span"
+                  label={ingredient}
+                />
+              ))}
+            </p>
+            <p className="font-weight-bold">Description</p>
+            <p>{step.description}</p>
+          </React.Fragment>
+        ))
+      )}
 
-      {isOwner && (
+      {isOwner && !stepEdit && (
         <div className="w-100 d-flex justify-content-center">
           <Button variant="contained" color="secondary" onClick={deleteRecipe}>
             Delete

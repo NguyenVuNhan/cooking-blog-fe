@@ -15,6 +15,7 @@ interface Props extends Pick<UseFormMethods, "control" | "register"> {
   open: boolean;
   handleClose: () => void;
   handleSave?: (ingredients: Ingredients) => void;
+  title: string;
 }
 
 const AddIngredientModel: FC<Props> = ({
@@ -22,12 +23,12 @@ const AddIngredientModel: FC<Props> = ({
   handleClose,
   handleSave,
   register,
+  title,
   open,
 }) => {
   const classes = useStyle();
   const { append, remove, fields } = useFieldArray<Ingredient>({
     control,
-    keyName: "id",
     name: "ingredients",
   });
   const ingredientsWatcher = useWatch<Ingredients>({
@@ -40,15 +41,11 @@ const AddIngredientModel: FC<Props> = ({
 
   const _handleSave = () => {
     handleClose();
-    if (ingredientsWatcher) {
-      remove();
-      ingredientsWatcher.forEach((val) => append(val));
-    }
     handleSave && handleSave(ingredientsWatcher || []);
   };
 
   return (
-    <ModalTemplate title="Add Ingredient" open={open} onClose={handleClose}>
+    <ModalTemplate title={title} open={open} onClose={handleClose} keepMounted>
       <Grid
         item
         container

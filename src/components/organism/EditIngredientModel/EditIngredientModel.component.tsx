@@ -9,7 +9,7 @@ interface Props {
   onUpdate: (data: Partial<RecipeForm>) => void;
 }
 
-const EditIngredientModel: FC<Props> = ({
+const EditIngredientModal: FC<Props> = ({
   defaultIngredients,
   onUpdate,
   ...rest
@@ -25,6 +25,7 @@ const EditIngredientModel: FC<Props> = ({
 
   return (
     <AddIngredientModal
+      title="Edit Ingredient"
       control={control}
       register={register}
       handleSave={handleModalSave}
@@ -33,4 +34,4 @@ const EditIngredientModel: FC<Props> = ({
   );
 };
 
-export default EditIngredientModel;
+export default EditIngredientModal;

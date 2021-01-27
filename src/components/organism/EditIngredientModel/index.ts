@@ -1,3 +1,3 @@
-import EditIngredientModel from "./EditIngredientModel.component";
+import EditIngredientModal from "./EditIngredientModel.component";
 
-export default EditIngredientModel;
+export default EditIngredientModal;
