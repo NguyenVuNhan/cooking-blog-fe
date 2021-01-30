@@ -81,7 +81,7 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
             />
           </Grid>
 
-          <Grid item sm={4} container spacing={3}>
+          <Grid item sm={12} container spacing={3}>
             <h3 className="ml-2">
               Ingredients:
               {ingredients.map((ingredient: string, index: number) => (
