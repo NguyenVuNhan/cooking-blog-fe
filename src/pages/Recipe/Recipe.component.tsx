@@ -68,7 +68,7 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
               Step {index + 1}:
             </Typography>
             <p className="font-weight-bold">
-              Ingredients
+              <strong>Ingredients:</strong>
               {step.ingredients.map((ingredient, index) => (
                 <Chip
                   key={index}
@@ -80,8 +80,9 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
                 />
               ))}
             </p>
-            <p className="font-weight-bold">Description</p>
-            <p>{step.description}</p>
+            <p className="font-weight-bold">
+              <strong>Description:</strong> {step.description}
+            </p>
           </React.Fragment>
         ))
       )}
