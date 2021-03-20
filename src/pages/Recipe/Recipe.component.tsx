@@ -1,11 +1,13 @@
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
+import EditButton from "components/atoms/EditButton";
+import EditIngredientModal from "components/organism/EditIngredientModel";
+import EditStepGroup from "components/organism/EditStepGroup";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
 import React, { FC, useState } from "react";
-import EditIngredientModal from "components/organism/EditIngredientModel";
-import EditButton from "components/atoms/EditButton";
-import EditStepGroup from "components/organism/EditStepGroup";
+import { register } from "services/auth";
+import TitleEdit from "./components/TitleEdit";
 
 interface Props {
   isOwner: boolean;
@@ -17,6 +19,7 @@ interface Props {
 const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
   const [ingredientEdit, setIngredientEdit] = useState<boolean>(false);
   const [stepEdit, setStepEdit] = useState<boolean>(false);
+  const [titleEdit, setTitleEdit] = useState<boolean>(false);
 
   return (
     <RecipeFeatureTemplate>
@@ -26,12 +29,27 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
         handleClose={() => setIngredientEdit(false)}
         onUpdate={updateRecipe}
       />
-      <Typography variant="h2" align="center" noWrap>
-        {recipe.title}
-      </Typography>
-      <Typography align="center" noWrap>
-        {recipe.duration} min - {recipe.steps.length} steps
-      </Typography>
+      {!titleEdit ? (
+        <>
+          <Typography variant="h2" align="center" noWrap>
+            {recipe.title}
+          </Typography>
+          <Typography align="center" noWrap>
+            {recipe.duration} min - {recipe.steps.length} steps
+            <EditButton
+              show={isOwner && !ingredientEdit}
+              onClick={() => setTitleEdit(true)}
+            />
+          </Typography>
+        </>
+      ) : (
+        <TitleEdit
+          data={recipe}
+          onUpdate={updateRecipe}
+          handleClose={() => setTitleEdit(false)}
+        />
+      )}
+
       <Typography variant="h4" align="left" noWrap>
         Ingredients
         <EditButton
@@ -86,7 +104,6 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
           </React.Fragment>
         ))
       )}
-
       {isOwner && !stepEdit && (
         <div className="w-100 d-flex justify-content-center">
           <Button variant="contained" color="secondary" onClick={deleteRecipe}>
