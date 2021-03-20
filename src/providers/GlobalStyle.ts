@@ -51,6 +51,9 @@ const styles = (theme: Theme) => ({
     ".d-flex": {
       display: "flex !important",
     },
+    ".flex-column": {
+      flexDirection: "column",
+    },
     ".align-items-center": {
       alignItems: "center",
     },

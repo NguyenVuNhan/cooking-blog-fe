@@ -5,19 +5,18 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import { forwardTo } from "helpers/router";
 import React, { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { IRootState } from "reducers/rootReducer";
 
 const ListRecipe: FunctionComponent = () => {
-  const history = useHistory();
   const recipes = useSelector<IRootState, Recipes>(
     (state) => state.recipe.recipes
   );
 
   const toRecipe = (id: string | undefined) => () => {
-    history.push(`/recipe/${id}`);
+    forwardTo(`/recipe/${id}`);
   };
 
   return (
@@ -28,8 +27,16 @@ const ListRecipe: FunctionComponent = () => {
         </Typography>
       ) : (
         recipes.map((recipe, index) => (
-          <Grid key={index} item md={4} xs={3}>
-            <Card>
+          <Grid
+            container
+            key={index}
+            item
+            xs={6}
+            sm={4}
+            md={3}
+            alignItems="stretch"
+          >
+            <Card className="w-100 d-flex flex-column">
               <CardContent>
                 <Typography variant="h3">{recipe.title}</Typography>
                 <div className="d-flex align-item-center">
@@ -37,6 +44,7 @@ const ListRecipe: FunctionComponent = () => {
                   <Typography>{recipe.duration}</Typography>
                 </div>
               </CardContent>
+              <div className="flex-grow-1"></div>
               <CardActions>
                 <Button onClick={toRecipe(recipe._id)}>View recipe</Button>
               </CardActions>
