@@ -1,6 +1,6 @@
 import Login from "./Login.container";
-import loginSaga from "./Login.sagas";
-import * as loginTypes from "./Login.types";
+export { default as loginSaga } from "./Login.sagas";
+export * as loginTypes from "./Login.types";
+export * as loginActions from "./Login.actions";
 
-export { loginSaga, loginTypes };
 export default Login;

@@ -3,6 +3,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { clearAuthToken, setAuthToken } from "helpers/Token";
 import jwt_decode from "jwt-decode";
+import { loginActions } from "pages/Authentication/Login";
 import store, { sagaMiddleware } from "providers/Store";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -21,8 +22,8 @@ if (process.env.NODE_ENV === "production") {
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode<MyToken>(localStorage.jwtToken);
-  // TODO: add authActions
-  // store.dispatch(authActions.setCurrentUser(decoded));
+
+  store.dispatch(loginActions.loginSuccess(decoded as IUser));
 
   const currentTime = Date.now() / 1000;
   if (currentTime > decoded.exp) {

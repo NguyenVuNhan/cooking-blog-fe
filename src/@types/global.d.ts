@@ -3,7 +3,7 @@ declare global {
     __REDUX_DEVTOOLS_EXTENSION__?: typeof compose;
   }
 
-  interface MyToken {
+  interface MyToken extends IUser {
     exp: number;
   }
 }
