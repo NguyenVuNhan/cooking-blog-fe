@@ -31,9 +31,11 @@ const ListRecipe: FunctionComponent = () => {
             container
             key={index}
             item
-            xs={6}
-            sm={4}
-            md={3}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
             alignItems="stretch"
           >
             <Card className="w-100 d-flex flex-column">
