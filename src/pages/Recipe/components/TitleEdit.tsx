@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TitleEdit: FC<Props> = ({ onUpdate, handleClose, data }) => {
-  const { register, errors, control, handleSubmit } = useForm<
+  const { register, errors, handleSubmit } = useForm<
     Pick<RecipeForm, "title" | "duration">
   >({
     defaultValues: data,
