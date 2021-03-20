@@ -22,6 +22,8 @@ if (process.env.NODE_ENV === "production") {
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   const decoded = jwt_decode<MyToken>(localStorage.jwtToken);
+  // Fix since the id property was mapped to _id
+  decoded._id = decoded.id;
 
   store.dispatch(loginActions.loginSuccess(decoded as IUser));
 

@@ -6,7 +6,6 @@ import EditIngredientModal from "components/organism/EditIngredientModel";
 import EditStepGroup from "components/organism/EditStepGroup";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
 import React, { FC, useState } from "react";
-import { register } from "services/auth";
 import TitleEdit from "./components/TitleEdit";
 
 interface Props {

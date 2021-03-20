@@ -4,6 +4,7 @@ declare global {
   }
 
   interface MyToken extends IUser {
+    id: string;
     exp: number;
   }
 }
