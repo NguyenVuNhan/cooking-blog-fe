@@ -42,7 +42,6 @@ export const updateRecipe = async (
   id: string,
   data: Partial<RecipeForm>
 ): Promise<UpdateRecipeResponseData> => {
-  console.log(data);
   const res = await axios.post<UpdateRecipeResponseData>(
     `/api/recipe/${id}`,
     data
