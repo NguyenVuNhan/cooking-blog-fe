@@ -161,18 +161,17 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
                 />
               ))}
             </p>
-            <p>
+            <div>
               <strong>Description:</strong>{" "}
               {extractDuration(step.description, (a, d, i) => (
                 <Chip
                   key={i}
                   onClick={startTimer(d)}
                   label={a}
-                  component="span"
                   style={{ color: "blue" }}
                 />
               ))}
-            </p>
+            </div>
           </React.Fragment>
         ))
       )}
