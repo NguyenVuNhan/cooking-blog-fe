@@ -30,6 +30,10 @@ const EditStepGroup: React.FC<Props> = ({
   );
 
   const onSubmit = (data: Partial<RecipeForm>) => {
+    data.steps = data.steps?.map((step, index) => ({
+      ...step,
+      ingredients: stepIngredient.current[index],
+    }));
     onUpdate(data);
     handleClose();
   };

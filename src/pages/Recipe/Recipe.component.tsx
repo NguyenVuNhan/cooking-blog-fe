@@ -1,11 +1,17 @@
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
+import Dialog from "@material-ui/core/Dialog";
+import IconButton from "@material-ui/core/IconButton/IconButton";
 import Typography from "@material-ui/core/Typography";
+import CloseIcon from "@material-ui/icons/Close";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
 import EditButton from "components/atoms/EditButton";
 import EditIngredientModal from "components/organism/EditIngredientModel";
 import EditStepGroup from "components/organism/EditStepGroup";
+import TimerSnackbar from "components/organism/TimerSnackbar";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
-import React, { FC, useState } from "react";
+import React, { FC, ReactElement, useState } from "react";
 import TitleEdit from "./components/TitleEdit";
 
 interface Props {
@@ -16,9 +22,86 @@ interface Props {
 }
 
 const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
-  const [ingredientEdit, setIngredientEdit] = useState<boolean>(false);
-  const [stepEdit, setStepEdit] = useState<boolean>(false);
-  const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  const [ingredientEdit, setIngredientEdit] = useState(false);
+  const [stepEdit, setStepEdit] = useState(false);
+  const [titleEdit, setTitleEdit] = useState(false);
+  const [timerOpen, setTimerOpen] = React.useState(false);
+  const [timeoutOpen, setTimeoutOpen] = React.useState(false);
+  const [duration, setDuration] = useState(0);
+
+  const getDuration = (rawDuration: string) => {
+    const reg = /(\d*).*\s\s*(\w\w*)$/;
+    const result = reg.exec(rawDuration);
+
+    if (result?.length !== 3) return 0;
+
+    const value = parseInt(result[1], 10);
+    let multiplier = 0;
+
+    switch (result[2]) {
+      case "hour":
+      case "hours":
+      case "hr":
+      case "hrs":
+        multiplier = 60 * 60 * 1000;
+        break;
+      case "min":
+      case "mins":
+      case "minutes":
+      case "minute":
+      case "m":
+        multiplier = 60 * 1000;
+        break;
+      case "sec":
+      case "seconds":
+      case "second":
+      case "s":
+        multiplier = 1000;
+        break;
+    }
+
+    return value * multiplier;
+  };
+
+  const parseTime = (description: string) => {
+    const timeRegex = /(\d\d*\s*(?:-\s*\d\d*\s*)?\w*)/g;
+    const result = description.split(timeRegex);
+
+    const ret: (string | ReactElement)[] = [...result];
+
+    for (let i = 1, length = result.length; i < length; i += 2) {
+      const d = getDuration(result[i]);
+      ret[i] = (
+        <Chip
+          key={i}
+          onClick={startTimer(d)}
+          style={{ color: "blue", padding: 0 }}
+          label={result[i]}
+        />
+      );
+    }
+
+    return ret;
+  };
+
+  const handleClose = () => {
+    setTimeoutOpen(false);
+  };
+
+  const startTimer = (duration: number) => () => {
+    setTimerOpen(false);
+    setDuration(duration);
+    setTimerOpen(true);
+  };
+
+  const closeTimer = (_?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setTimerOpen(false);
+    setTimeoutOpen(true);
+  };
 
   return (
     <RecipeFeatureTemplate>
@@ -28,13 +111,47 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
         handleClose={() => setIngredientEdit(false)}
         onUpdate={updateRecipe}
       />
+
+      {timerOpen && (
+        <TimerSnackbar
+          onClose={closeTimer}
+          open={timerOpen}
+          duration={duration}
+        />
+      )}
+
+      <Dialog
+        open={timeoutOpen}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <Alert
+          severity="warning"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setTimeoutOpen(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
+          <AlertTitle>Time out</AlertTitle>
+          Ding Ding Ding
+        </Alert>
+      </Dialog>
+
       {!titleEdit ? (
         <>
           <Typography variant="h2" align="center" noWrap>
             {recipe.title}
           </Typography>
           <Typography align="center" noWrap>
-            {recipe.duration} min - {recipe.steps.length} steps
+            {recipe.duration} - {recipe.steps.length} steps
             <EditButton
               show={isOwner && !ingredientEdit}
               onClick={() => setTitleEdit(true)}
@@ -48,7 +165,6 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
           handleClose={() => setTitleEdit(false)}
         />
       )}
-
       <Typography variant="h4" align="left" noWrap>
         Ingredients
         <EditButton
@@ -97,8 +213,8 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
                 />
               ))}
             </p>
-            <p className="font-weight-bold">
-              <strong>Description:</strong> {step.description}
+            <p>
+              <strong>Description:</strong> {parseTime(step.description)}
             </p>
           </React.Fragment>
         ))

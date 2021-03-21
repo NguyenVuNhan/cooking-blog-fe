@@ -22,10 +22,8 @@ const ToolBox: FC<Props> = ({ hidden }) => {
   };
 
   return (
-    <>
-      <div className={classes.root} style={{ zIndex: open ? 1 : undefined }}>
-        <Backdrop open={open} />
-      </div>
+    <div className={classes.root} style={{ zIndex: open ? 1 : undefined }}>
+      <Backdrop open={open} />
       <SpeedDial
         ariaLabel="Tool Box"
         className={classes.speedDial}
@@ -37,7 +35,7 @@ const ToolBox: FC<Props> = ({ hidden }) => {
       >
         <AddRecipeSDA open={open} />
       </SpeedDial>
-    </>
+    </div>
   );
 };
 

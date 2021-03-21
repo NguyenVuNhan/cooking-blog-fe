@@ -76,7 +76,11 @@ const StepFormGroup: React.FC<Props> = ({
                 ))
               }
               renderInput={(params) => (
-                <TextField {...params} label="Ingredients" />
+                <TextField
+                  {...params}
+                  name={`steps[${index}].ingredients`}
+                  label="Ingredients"
+                />
               )}
             />
           </Grid>
