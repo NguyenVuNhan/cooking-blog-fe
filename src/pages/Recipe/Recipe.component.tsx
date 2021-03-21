@@ -11,7 +11,8 @@ import EditIngredientModal from "components/organism/EditIngredientModel";
 import EditStepGroup from "components/organism/EditStepGroup";
 import TimerSnackbar from "components/organism/TimerSnackbar";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
-import React, { FC, ReactElement, useState } from "react";
+import { extractDuration } from "helpers";
+import React, { FC, useState } from "react";
 import TitleEdit from "./components/TitleEdit";
 
 interface Props {
@@ -29,61 +30,6 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
   const [timeoutOpen, setTimeoutOpen] = React.useState(false);
   const [duration, setDuration] = useState(0);
 
-  const getDuration = (rawDuration: string) => {
-    const reg = /(\d*).*\s\s*(\w\w*)$/;
-    const result = reg.exec(rawDuration);
-
-    if (result?.length !== 3) return 0;
-
-    const value = parseInt(result[1], 10);
-    let multiplier = 0;
-
-    switch (result[2]) {
-      case "hour":
-      case "hours":
-      case "hr":
-      case "hrs":
-        multiplier = 60 * 60 * 1000;
-        break;
-      case "min":
-      case "mins":
-      case "minutes":
-      case "minute":
-      case "m":
-        multiplier = 60 * 1000;
-        break;
-      case "sec":
-      case "seconds":
-      case "second":
-      case "s":
-        multiplier = 1000;
-        break;
-    }
-
-    return value * multiplier;
-  };
-
-  const parseTime = (description: string) => {
-    const timeRegex = /(\d\d*\s*(?:-\s*\d\d*\s*)?\w*)/g;
-    const result = description.split(timeRegex);
-
-    const ret: (string | ReactElement)[] = [...result];
-
-    for (let i = 1, length = result.length; i < length; i += 2) {
-      const d = getDuration(result[i]);
-      ret[i] = (
-        <Chip
-          key={i}
-          onClick={startTimer(d)}
-          style={{ color: "blue", padding: 0 }}
-          label={result[i]}
-        />
-      );
-    }
-
-    return ret;
-  };
-
   const handleClose = () => {
     setTimeoutOpen(false);
   };
@@ -100,7 +46,9 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
     }
 
     setTimerOpen(false);
-    setTimeoutOpen(true);
+    if (reason === "timeout") {
+      setTimeoutOpen(true);
+    }
   };
 
   return (
@@ -214,7 +162,16 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
               ))}
             </p>
             <p>
-              <strong>Description:</strong> {parseTime(step.description)}
+              <strong>Description:</strong>{" "}
+              {extractDuration(step.description, (a, d, i) => (
+                <Chip
+                  key={i}
+                  onClick={startTimer(d)}
+                  label={a}
+                  component="span"
+                  style={{ color: "blue" }}
+                />
+              ))}
             </p>
           </React.Fragment>
         ))
