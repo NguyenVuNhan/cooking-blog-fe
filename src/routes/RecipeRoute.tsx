@@ -10,7 +10,11 @@ const RecipeRoute: FC = () => {
     <Switch>
       <AuthenticatedGuard exact path="/recipe/add" component={AddRecipe} />
       <Route exact path="/recipe/search(.*)" component={Recipes} />
-      <Route exact path="/recipe/:id" component={Recipe} />
+      <Route
+        exact
+        path="/recipe/:id"
+        render={({ match }) => <Recipe id={match.params.id} />}
+      />
     </Switch>
   );
 };

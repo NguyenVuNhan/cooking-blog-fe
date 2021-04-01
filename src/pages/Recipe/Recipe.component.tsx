@@ -12,23 +12,31 @@ import EditStepGroup from "components/organism/EditStepGroup";
 import TimerSnackbar from "components/organism/TimerSnackbar";
 import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
 import { extractDuration } from "helpers";
+import { useInitFunction } from "hooks";
 import React, { FC, useState } from "react";
 import TitleEdit from "./components/TitleEdit";
+import { Props } from "./Recipe.container";
+import useStyle from "./Recipe.style";
 
-interface Props {
-  isOwner: boolean;
-  deleteRecipe: () => void;
-  recipe: Recipe;
-  updateRecipe: (data: Partial<RecipeForm>) => void;
-}
+const Recipe: FC<Props> = ({
+  recipe,
+  isOwner,
+  getRecipe,
+  deleteRecipe,
+  updateRecipe,
+  loading,
+}) => {
+  useInitFunction(getRecipe);
+  const classes = useStyle();
 
-const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
   const [ingredientEdit, setIngredientEdit] = useState(false);
   const [stepEdit, setStepEdit] = useState(false);
   const [titleEdit, setTitleEdit] = useState(false);
   const [timerOpen, setTimerOpen] = React.useState(false);
   const [timeoutOpen, setTimeoutOpen] = React.useState(false);
   const [duration, setDuration] = useState(0);
+
+  if (loading) return <div>Loading...</div>;
 
   const handleClose = () => {
     setTimeoutOpen(false);
@@ -54,7 +62,7 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
   return (
     <RecipeFeatureTemplate>
       <EditIngredientModal
-        defaultIngredients={recipe.ingredients}
+        defaultIngredients={(recipe as Recipe).ingredients}
         open={ingredientEdit}
         handleClose={() => setIngredientEdit(false)}
         onUpdate={updateRecipe}
@@ -96,10 +104,10 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
       {!titleEdit ? (
         <>
           <Typography variant="h2" align="center" noWrap>
-            {recipe.title}
+            {recipe?.title}
           </Typography>
           <Typography align="center" noWrap>
-            {recipe.duration} - {recipe.steps.length} steps
+            {recipe?.duration} - {recipe?.steps.length} steps
             <EditButton
               show={isOwner && !ingredientEdit}
               onClick={() => setTitleEdit(true)}
@@ -108,7 +116,7 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
         </>
       ) : (
         <TitleEdit
-          data={recipe}
+          data={recipe as Recipe}
           onUpdate={updateRecipe}
           handleClose={() => setTitleEdit(false)}
         />
@@ -121,7 +129,7 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
         />
       </Typography>
       <ul>
-        {recipe.ingredients.map((value, index) => (
+        {recipe?.ingredients.map((value, index) => (
           <li key={index}>
             <p>
               {value.ingredient} - {value.quantity}
@@ -138,12 +146,12 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
       </Typography>
       {stepEdit ? (
         <EditStepGroup
-          recipe={recipe}
+          recipe={recipe as Recipe}
           onUpdate={updateRecipe}
           handleClose={() => setStepEdit(false)}
         />
       ) : (
-        recipe.steps.map((step, index) => (
+        recipe?.steps.map((step, index) => (
           <React.Fragment key={index}>
             <Typography variant="h6" align="left" noWrap>
               Step {index + 1}:
@@ -153,7 +161,7 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
               {step.ingredients.map((ingredient, index) => (
                 <Chip
                   key={index}
-                  className="ml-1"
+                  className={classes.chip}
                   size="small"
                   color="primary"
                   component="span"
@@ -165,10 +173,10 @@ const Recipe: FC<Props> = ({ recipe, isOwner, deleteRecipe, updateRecipe }) => {
               <strong>Description:</strong>{" "}
               {extractDuration(step.description, (a, d, i) => (
                 <Chip
+                  className={classes.chip}
                   key={i}
                   onClick={startTimer(d)}
                   label={a}
-                  style={{ color: "blue" }}
                 />
               ))}
             </div>

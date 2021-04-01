@@ -4,7 +4,7 @@ import { GET_RECIPE_SUCCESS } from "pages/Recipe/Recipe.types";
 
 export interface RecipeState {
   recipes: Recipes;
-  recipe: Recipe | null;
+  recipe?: Recipe;
 }
 
 type RecipeActionType =
@@ -13,7 +13,6 @@ type RecipeActionType =
 
 const initialState: RecipeState = {
   recipes: [],
-  recipe: null,
 };
 
 const recipeReducer = (

@@ -1,69 +1,49 @@
-import { connect } from "react-redux";
+import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
 import GetRecipeComponent from "./Recipe.component";
-import { Dispatch } from "redux";
 import { deleteRecipe, getRecipe, updateRecipe } from "./Recipe.actions";
-import { RecipeActionType } from "./Recipe.types";
-import React, { FC, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { IRootState } from "reducers/rootReducer";
+import { withStyles } from "@material-ui/core";
 
-interface Props {
-  user: IUser | undefined;
-  onGetRecipe: (id: string) => void;
-  onDeleteRecipe: (id: string) => void;
-  recipe: Recipe | null;
-  onUpdateRecipe: (id: string, data: Partial<RecipeForm>) => void;
+interface OwnProps {
+  id: string;
 }
 
-const GetRecipeContainer: FC<Props> = ({
-  onGetRecipe,
-  onDeleteRecipe,
-  onUpdateRecipe,
-  recipe,
-  user,
-}) => {
-  const { id } = useParams<{ id: string }>();
+interface StateProps {
+  recipe?: Recipe;
+  isOwner: boolean;
+  loading: boolean;
+}
 
-  useEffect(() => {
-    onGetRecipe(id);
-  }, [id]);
+interface DispatchProps {
+  getRecipe: () => void;
+  deleteRecipe: () => void;
+  updateRecipe: (data: Partial<RecipeForm>) => void;
+}
 
-  const deleteRecipe = () => {
-    onDeleteRecipe(id);
-  };
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, IRootState> = (
+  { recipe: { recipe }, auth: { user } },
+  { id }
+) => {
+  const loading = !recipe || recipe._id !== id ? true : false;
+  const isOwner = user?._id === recipe?.user;
 
-  const updateRecipe = (data: Partial<RecipeForm>) => {
-    onUpdateRecipe(id, data);
-  };
-
-  // TODO: Replace by loading component
-  return !recipe || recipe._id !== id ? (
-    <div>Loading...</div>
-  ) : (
-    <GetRecipeComponent
-      updateRecipe={updateRecipe}
-      recipe={recipe}
-      deleteRecipe={deleteRecipe}
-      isOwner={user?._id === recipe.user}
-    />
-  );
+  return { recipe, loading, isOwner };
 };
 
-const mapStateToProps = (state: IRootState) => ({
-  recipe: state.recipe.recipe,
-  user: state.auth.user,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<RecipeActionType>) => ({
-  onGetRecipe: (id: string) => {
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
+  dispatch,
+  { id }
+) => ({
+  getRecipe: () => {
     dispatch(getRecipe(id));
   },
-  onDeleteRecipe: (id: string) => {
+  deleteRecipe: () => {
     dispatch(deleteRecipe(id));
   },
-  onUpdateRecipe: (id: string, data: Partial<RecipeForm>) => {
+  updateRecipe: (data: Partial<RecipeForm>) => {
     dispatch(updateRecipe(id, data));
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GetRecipeContainer);
+export type Props = OwnProps & StateProps & DispatchProps;
+export default connect(mapStateToProps, mapDispatchToProps)(GetRecipeComponent);
