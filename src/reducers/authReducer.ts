@@ -1,3 +1,4 @@
+import { logoutTypes } from "components/organism/ToolBox";
 import { loginTypes } from "pages/Authentication/Login";
 
 export interface AuthState {
@@ -5,7 +6,7 @@ export interface AuthState {
   authenticated: boolean;
 }
 
-type AuthActionType = loginTypes.LoginActionType;
+type AuthActionType = loginTypes.LoginActionType | logoutTypes.LogoutActionType;
 
 const initialState: AuthState = {
   authenticated: false,
@@ -18,6 +19,8 @@ const authReducer = (
   switch (action.type) {
     case loginTypes.LOGIN_REQUEST:
     case loginTypes.LOGIN_FAILURE:
+      return { authenticated: false };
+    case logoutTypes.LOGOUT:
       return { authenticated: false };
     case loginTypes.LOGIN_SUCCESS:
       return { ...state, authenticated: true, user: action.payload };
