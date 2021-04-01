@@ -2,7 +2,6 @@ import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
 import GetRecipeComponent from "./Recipe.component";
 import { deleteRecipe, getRecipe, updateRecipe } from "./Recipe.actions";
 import { IRootState } from "reducers/rootReducer";
-import { withStyles } from "@material-ui/core";
 
 interface OwnProps {
   id: string;
