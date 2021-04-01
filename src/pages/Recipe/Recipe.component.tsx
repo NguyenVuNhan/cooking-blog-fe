@@ -1,7 +1,14 @@
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Alert from "@material-ui/lab/Alert";
@@ -15,6 +22,7 @@ import { extractDuration } from "helpers";
 import { useInitFunction } from "hooks";
 import React, { FC, useState } from "react";
 import TitleEdit from "./components/TitleEdit";
+import ToShoppingButton from "./components/ToShoppingButton";
 import { Props } from "./Recipe.container";
 import useStyle from "./Recipe.style";
 
@@ -104,10 +112,13 @@ const Recipe: FC<Props> = ({
       {!titleEdit ? (
         <>
           <Typography variant="h2" align="center" noWrap>
-            {recipe?.title}
+            <Box fontWeight="fontWeightBold" pb={2}>
+              {recipe?.title}
+            </Box>
           </Typography>
           <Typography align="center" noWrap>
-            {recipe?.duration} - {recipe?.steps.length} steps
+            {recipe?.ingredients.length} ingredients - {recipe?.duration} -{" "}
+            {recipe?.steps.length} steps
             <EditButton
               show={isOwner && !ingredientEdit}
               onClick={() => setTitleEdit(true)}
@@ -121,74 +132,93 @@ const Recipe: FC<Props> = ({
           handleClose={() => setTitleEdit(false)}
         />
       )}
-      <Typography variant="h4" align="left" noWrap>
-        Ingredients
-        <EditButton
-          show={isOwner && !ingredientEdit}
-          onClick={() => setIngredientEdit(true)}
-        />
+      <Divider variant="middle" className={classes.divider} />
+
+      {/* Ingredient */}
+      <Typography variant="h5" align="left" noWrap>
+        <Box fontWeight={500}>
+          Ingredients
+          <EditButton
+            show={isOwner && !ingredientEdit}
+            onClick={() => setIngredientEdit(true)}
+          />
+        </Box>
       </Typography>
-      <ul>
+      <List>
         {recipe?.ingredients.map((value, index) => (
-          <li key={index}>
-            <p>
-              {value.ingredient} - {value.quantity}
-            </p>
-          </li>
+          <ListItem key={index} className={classes.ingredientItem}>
+            <ListItemIcon>
+              <ToShoppingButton />
+            </ListItemIcon>
+            <Typography>
+              {value.quantity ? value.quantity + " of " : ""}{" "}
+              <strong>{value.ingredient}</strong>
+            </Typography>
+          </ListItem>
         ))}
-      </ul>
-      <Typography variant="h4" align="left" noWrap>
-        Steps
-        <EditButton
-          show={isOwner && !stepEdit}
-          onClick={() => setStepEdit(true)}
-        />
-      </Typography>
-      {stepEdit ? (
+      </List>
+
+      {/* Steps */}
+      {!stepEdit ? (
+        recipe?.steps.map((step, index) => (
+          <>
+            <Divider variant="middle" className={classes.divider} />
+            <Box key={index} py={2}>
+              <Typography variant="h5" align="left" noWrap>
+                <Box fontWeight={500}>Step {index + 1}:</Box>
+              </Typography>
+              <p>
+                <Box component="span" fontWeight={450}>
+                  Ingredients:{" "}
+                </Box>
+                {step.ingredients.join(", ")}
+              </p>
+              <div>
+                <strong>Description:</strong>{" "}
+                {extractDuration(step.description, (a, d, i) => (
+                  <Chip
+                    key={i}
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    className={classes.chip}
+                    onClick={startTimer(d)}
+                    label={a.trim()}
+                  />
+                ))}
+              </div>
+            </Box>
+          </>
+        ))
+      ) : (
         <EditStepGroup
           recipe={recipe as Recipe}
           onUpdate={updateRecipe}
           handleClose={() => setStepEdit(false)}
         />
-      ) : (
-        recipe?.steps.map((step, index) => (
-          <React.Fragment key={index}>
-            <Typography variant="h6" align="left" noWrap>
-              Step {index + 1}:
-            </Typography>
-            <p className="font-weight-bold">
-              <strong>Ingredients:</strong>
-              {step.ingredients.map((ingredient, index) => (
-                <Chip
-                  key={index}
-                  className={classes.chip}
-                  size="small"
-                  color="primary"
-                  component="span"
-                  label={ingredient}
-                />
-              ))}
-            </p>
-            <div>
-              <strong>Description:</strong>{" "}
-              {extractDuration(step.description, (a, d, i) => (
-                <Chip
-                  className={classes.chip}
-                  key={i}
-                  onClick={startTimer(d)}
-                  label={a}
-                />
-              ))}
-            </div>
-          </React.Fragment>
-        ))
       )}
+
       {isOwner && !stepEdit && (
-        <div className="w-100 d-flex justify-content-center">
-          <Button variant="contained" color="secondary" onClick={deleteRecipe}>
-            Delete
-          </Button>
-        </div>
+        <Box display="flex" justifyContent="center">
+          <Box px={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setStepEdit(true)}
+            >
+              Edit Steps
+            </Button>
+          </Box>
+          <Box px={2}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={deleteRecipe}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Box>
       )}
     </RecipeFeatureTemplate>
   );

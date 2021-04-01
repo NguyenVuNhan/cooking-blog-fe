@@ -8,6 +8,19 @@ const useStyle = makeStyles((theme) =>
       marginLeft: theme.spacing(1),
       padding: theme.spacing(0),
     },
+    divider: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+    },
+    ingredientItem: {
+      "& .MuiListItemIcon-root": {
+        minWidth: "max-content",
+      },
+      "& .MuiCheckbox-root": {
+        paddingTop: theme.spacing(0),
+        paddingBottom: theme.spacing(0),
+      },
+    },
   })
 );
 
