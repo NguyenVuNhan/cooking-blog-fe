@@ -1,7 +1,9 @@
 import Backdrop from "@material-ui/core/Backdrop";
+import AddIcon from "@material-ui/icons/Add";
 import MenuIcon from "@material-ui/icons/Menu";
 import SpeedDial from "@material-ui/lab/SpeedDial";
-import AddRecipeSDA from "components/atoms/AddRecipeSDA";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
+import { forwardTo } from "helpers/router";
 import React, { FC } from "react";
 import useStyles from "./ToolBox.style";
 
@@ -33,7 +35,13 @@ const ToolBox: FC<Props> = ({ hidden }) => {
         onOpen={handleOpen}
         open={open}
       >
-        <AddRecipeSDA open={open} />
+        <SpeedDialAction
+          icon={<AddIcon />}
+          tooltipTitle="Add Recipe"
+          tooltipOpen
+          open={open}
+          onClick={() => forwardTo("/recipe/add")}
+        />
       </SpeedDial>
     </div>
   );
