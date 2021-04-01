@@ -5,8 +5,8 @@ import ToolBox from "../organism/ToolBox";
 const RecipeTemplate: FunctionComponent = ({ children }) => {
   return (
     <Container maxWidth="lg">
-      <ToolBox />
       {children}
+      <ToolBox />
     </Container>
   );
 };

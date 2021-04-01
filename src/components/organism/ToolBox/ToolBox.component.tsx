@@ -38,7 +38,7 @@ const ToolBox: FC<Props> = ({ hidden }) => {
   };
 
   return (
-    <div className={classes.root} style={{ zIndex: open ? 1 : undefined }}>
+    <>
       <Backdrop open={open} />
       <SpeedDial
         ariaLabel="Tool Box"
@@ -48,6 +48,7 @@ const ToolBox: FC<Props> = ({ hidden }) => {
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
+        style={{ zIndex: 2 }}
       >
         {isAuthenticated ? (
           <SpeedDialAction
@@ -74,7 +75,7 @@ const ToolBox: FC<Props> = ({ hidden }) => {
           onClick={() => forwardTo("/recipe/add")}
         />
       </SpeedDial>
-    </div>
+    </>
   );
 };
 
