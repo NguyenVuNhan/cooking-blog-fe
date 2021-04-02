@@ -129,7 +129,7 @@ const Recipe: FC<Props> = ({
           handleClose={() => setTitleEdit(false)}
         />
       )}
-      <Divider variant="middle" className={classes.divider} />
+      <Divider variant="middle" className="my-1" />
 
       {/* Ingredient */}
       <Typography variant="h5" align="left" noWrap>
@@ -149,7 +149,9 @@ const Recipe: FC<Props> = ({
             </ListItemIcon>
             <Typography>
               {value.quantity ? value.quantity + " of " : ""}{" "}
-              <strong>{value.ingredient}</strong>
+              <Box component="span" fontWeight={401}>
+                {value.ingredient}
+              </Box>
             </Typography>
           </ListItem>
         ))}
@@ -159,7 +161,7 @@ const Recipe: FC<Props> = ({
       {!stepEdit ? (
         recipe?.steps.map((step, index) => (
           <>
-            <Divider variant="middle" className={classes.divider} />
+            <Divider variant="middle" className="my-1" />
             <Box key={index} py={2}>
               <Typography variant="h5" align="left" noWrap>
                 <Box fontWeight={500}>Step {index + 1}:</Box>
@@ -171,15 +173,7 @@ const Recipe: FC<Props> = ({
                 {step.ingredients.join(", ")}
               </p>
               <Box lineHeight={2}>
-                <strong>Description:</strong> {/* <Chip */}
-                {/*   key={i} */}
-                {/*   variant="outlined" */}
-                {/*   color="primary" */}
-                {/*   size="small" */}
-                {/*   className={classes.chip} */}
-                {/*   onClick={startTimer(d)} */}
-                {/*   label={a.trim()} */}
-                {/* /> */}
+                <strong>Description:</strong>
                 {extractDuration(step.description, (a, d, i) => (
                   <Box
                     component="a"
