@@ -1,6 +1,5 @@
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Chip from "@material-ui/core/Chip";
 import Dialog from "@material-ui/core/Dialog";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton/IconButton";
@@ -171,20 +170,32 @@ const Recipe: FC<Props> = ({
                 </Box>
                 {step.ingredients.join(", ")}
               </p>
-              <div>
-                <strong>Description:</strong>{" "}
+              <Box lineHeight={2}>
+                <strong>Description:</strong> {/* <Chip */}
+                {/*   key={i} */}
+                {/*   variant="outlined" */}
+                {/*   color="primary" */}
+                {/*   size="small" */}
+                {/*   className={classes.chip} */}
+                {/*   onClick={startTimer(d)} */}
+                {/*   label={a.trim()} */}
+                {/* /> */}
                 {extractDuration(step.description, (a, d, i) => (
-                  <Chip
+                  <Box
+                    component="a"
+                    bgcolor="primary.main"
+                    color="white"
+                    px={0.8}
+                    py={0.3}
+                    borderRadius={10}
+                    fontWeight={500}
                     key={i}
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    className={classes.chip}
                     onClick={startTimer(d)}
-                    label={a.trim()}
-                  />
+                  >
+                    {a}
+                  </Box>
                 ))}
-              </div>
+              </Box>
             </Box>
           </>
         ))
