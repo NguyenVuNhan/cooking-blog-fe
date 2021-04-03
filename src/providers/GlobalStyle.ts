@@ -21,7 +21,7 @@ const styles = (theme: Theme) => ({
     },
 
     //Positioning
-    ".position-relative": {
+    ".relative": {
       position: "relative",
     },
 
@@ -45,6 +45,9 @@ const styles = (theme: Theme) => ({
     },
     ".text-center": {
       textAlign: "center",
+    },
+    ".normal-case": {
+      textTransform: "none",
     },
 
     // Flex

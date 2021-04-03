@@ -1,12 +1,32 @@
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Container from "@material-ui/core/Container";
-import React, { FunctionComponent } from "react";
-import ToolBox from "../organism/ToolBox";
+import React, { FunctionComponent, ReactNode } from "react";
+import { useHistory } from "react-router-dom";
+import ToolBox from "components/organism/ToolBox";
 
-const RecipeTemplate: FunctionComponent = ({ children }) => {
+interface Props {
+  children: ReactNode;
+  showToolBox?: boolean;
+}
+
+const RecipeTemplate: FunctionComponent<Props> = ({
+  children,
+  showToolBox = true,
+}) => {
+  const history = useHistory();
+
+  const goBack = () => {
+    history.goBack();
+  };
+
   return (
-    <Container maxWidth="lg">
+    <Container className="relative" maxWidth="md">
+      <IconButton onClick={goBack}>
+        <ArrowBackIcon />
+      </IconButton>
       {children}
-      <ToolBox />
+      {showToolBox && <ToolBox />}
     </Container>
   );
 };

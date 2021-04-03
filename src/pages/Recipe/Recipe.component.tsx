@@ -1,3 +1,4 @@
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -14,7 +15,7 @@ import EditButton from "components/atoms/EditButton";
 import EditIngredientModal from "components/organism/EditIngredientModel";
 import EditStepGroup from "components/organism/EditStepGroup";
 import TimerSnackbar from "components/organism/TimerSnackbar";
-import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
+import RecipeTemplate from "components/templates/recipe.template";
 import { extractDuration } from "helpers";
 import { useInitFunction } from "hooks";
 import React, { FC, useState } from "react";
@@ -65,14 +66,13 @@ const Recipe: FC<Props> = ({
   };
 
   return (
-    <RecipeFeatureTemplate>
+    <RecipeTemplate>
       <EditIngredientModal
         defaultIngredients={(recipe as Recipe).ingredients}
         open={ingredientEdit}
         handleClose={() => setIngredientEdit(false)}
         onUpdate={updateRecipe}
       />
-
       {timerOpen && (
         <TimerSnackbar
           onClose={closeTimer}
@@ -80,7 +80,6 @@ const Recipe: FC<Props> = ({
           duration={duration}
         />
       )}
-
       <Dialog
         open={timeoutOpen}
         onClose={handleClose}
@@ -105,7 +104,6 @@ const Recipe: FC<Props> = ({
           Ding Ding Ding
         </Alert>
       </Dialog>
-
       {!titleEdit ? (
         <>
           <Typography variant="h2" align="center" noWrap>
@@ -130,7 +128,6 @@ const Recipe: FC<Props> = ({
         />
       )}
       <Divider variant="middle" className="my-1" />
-
       {/* Ingredient */}
       <Typography variant="h5" align="left" noWrap>
         <Box fontWeight={500}>
@@ -156,7 +153,16 @@ const Recipe: FC<Props> = ({
           </ListItem>
         ))}
       </List>
-
+      <Box display="flex" justifyContent="center">
+        {" "}
+        <Button
+          color="primary"
+          startIcon={<AddShoppingCartIcon />}
+          className="normal-case"
+        >
+          Add all to shopping list
+        </Button>
+      </Box>{" "}
       {/* Steps */}
       {!stepEdit ? (
         recipe?.steps.map((step, index) => (
@@ -200,7 +206,6 @@ const Recipe: FC<Props> = ({
           handleClose={() => setStepEdit(false)}
         />
       )}
-
       {isOwner && !stepEdit && (
         <Box display="flex" justifyContent="center">
           <Box px={2}>
@@ -223,7 +228,7 @@ const Recipe: FC<Props> = ({
           </Box>
         </Box>
       )}
-    </RecipeFeatureTemplate>
+    </RecipeTemplate>
   );
 };
 

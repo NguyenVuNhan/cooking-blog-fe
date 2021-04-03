@@ -8,7 +8,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import ErrorBadge from "components/molecules/ErrorBadge";
 import AddIngredientModal from "components/organism/AddIngredientModel";
 import AddStepGroup from "components/organism/AddStepGroup";
-import RecipeFeatureTemplate from "components/templates/recipeFeature.template";
+import RecipeTemplate from "components/templates/recipe.template";
 import React, { FC, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as types from "./AddRecipe.types";
@@ -43,7 +43,7 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
 
   return (
     <>
-      <RecipeFeatureTemplate showToolBox={false}>
+      <RecipeTemplate showToolBox={false}>
         <Grid
           container
           alignItems="flex-start"
@@ -106,7 +106,7 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
             </Button>
           </Grid>
         </Grid>
-      </RecipeFeatureTemplate>
+      </RecipeTemplate>
       <AddIngredientModal
         title="Add Ingredient"
         control={control}

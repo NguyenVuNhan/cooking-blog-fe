@@ -3,6 +3,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddIcon from "@material-ui/icons/Add";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import { forwardTo } from "helpers/router";
@@ -73,6 +74,13 @@ const ToolBox: FC<Props> = ({ hidden }) => {
           tooltipOpen
           open={open}
           onClick={() => forwardTo("/recipe/add")}
+        />
+        <SpeedDialAction
+          icon={<ShoppingBasketIcon />}
+          tooltipTitle="View Basket"
+          tooltipOpen
+          open={open}
+          onClick={() => forwardTo("/basket")}
         />
       </SpeedDial>
     </>
