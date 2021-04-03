@@ -40,7 +40,7 @@ const ToolBox: FC<Props> = ({ hidden }) => {
 
   return (
     <>
-      <Backdrop open={open} />
+      <Backdrop open={open} style={{ zIndex: 10 }} />
       <SpeedDial
         ariaLabel="Tool Box"
         className={classes.speedDial}
@@ -49,7 +49,6 @@ const ToolBox: FC<Props> = ({ hidden }) => {
         onClose={handleClose}
         onOpen={handleOpen}
         open={open}
-        style={{ zIndex: 2 }}
       >
         {isAuthenticated ? (
           <SpeedDialAction

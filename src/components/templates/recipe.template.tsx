@@ -5,6 +5,7 @@ import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import ToolBox from "components/organism/ToolBox";
 import Loading from "pages/Loading";
+import Box from "@material-ui/core/Box";
 
 interface Props {
   showToolBox?: boolean;
@@ -26,12 +27,14 @@ const RecipeTemplate: FC<Props> = ({
 
   return (
     <Container className="relative" maxWidth="md">
-      {!hideGoBack && (
-        <IconButton onClick={goBack}>
-          <ArrowBackIcon />
-        </IconButton>
-      )}
-      {loading ? <Loading /> : children}
+      <Box overflow="auto" className="vh-100 noScrollBar">
+        {!hideGoBack && (
+          <IconButton onClick={goBack}>
+            <ArrowBackIcon />
+          </IconButton>
+        )}
+        {loading ? <Loading /> : children}
+      </Box>
       {showToolBox && <ToolBox />}
     </Container>
   );
