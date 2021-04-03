@@ -1,18 +1,22 @@
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Container from "@material-ui/core/Container";
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import ToolBox from "components/organism/ToolBox";
+import Loading from "pages/Loading";
 
 interface Props {
-  children: ReactNode;
   showToolBox?: boolean;
+  loading?: boolean;
+  hideGoBack?: boolean;
 }
 
-const RecipeTemplate: FunctionComponent<Props> = ({
+const RecipeTemplate: FC<Props> = ({
   children,
+  loading = false,
   showToolBox = true,
+  hideGoBack = false,
 }) => {
   const history = useHistory();
 
@@ -22,10 +26,12 @@ const RecipeTemplate: FunctionComponent<Props> = ({
 
   return (
     <Container className="relative" maxWidth="md">
-      <IconButton onClick={goBack}>
-        <ArrowBackIcon />
-      </IconButton>
-      {children}
+      {!hideGoBack && (
+        <IconButton onClick={goBack}>
+          <ArrowBackIcon />
+        </IconButton>
+      )}
+      {loading ? <Loading /> : children}
       {showToolBox && <ToolBox />}
     </Container>
   );

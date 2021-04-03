@@ -10,7 +10,7 @@ const SearchRecipe: FC = () => {
   const history = useHistory();
 
   return (
-    <RecipeTemplate>
+    <RecipeTemplate hideGoBack>
       <Box display="flex" alignItems="center" justifyContent="center">
         <div>
           <Typography align="center" variant="h1">
