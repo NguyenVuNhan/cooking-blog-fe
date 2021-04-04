@@ -51,6 +51,9 @@ const styles = (theme: Theme) => ({
     },
 
     // Flex
+    ".flex": {
+      display: "flex",
+    },
     ".d-flex": {
       display: "flex !important",
     },

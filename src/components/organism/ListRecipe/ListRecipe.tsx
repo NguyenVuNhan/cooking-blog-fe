@@ -34,13 +34,11 @@ const ListRecipe: FunctionComponent = () => {
             xs={12}
             sm={6}
             md={4}
-            lg={3}
-            xl={2}
             alignItems="stretch"
           >
             <Card className="w-100 d-flex flex-column">
               <CardContent>
-                <Typography variant="h3">{recipe.title}</Typography>
+                <Typography variant="h4">{recipe.title}</Typography>
                 <div className="d-flex align-item-center">
                   <AccessTimeIcon className="mr-1" />
                   <Typography>{recipe.duration}</Typography>

@@ -18,11 +18,12 @@ import TimerSnackbar from "components/organism/TimerSnackbar";
 import RecipeTemplate from "components/templates/recipe.template";
 import { extractDuration } from "helpers";
 import { useInitFunction } from "hooks";
-import React, { FC, useState } from "react";
+import React, { FC, Fragment, useContext, useState } from "react";
 import TitleEdit from "./components/TitleEdit";
 import ToShoppingButton from "./components/ToShoppingButton";
 import { Props } from "./Recipe.container";
 import useStyle from "./Recipe.style";
+import { ShoppingListCtx } from "providers/ShoppingListProvider";
 
 const Recipe: FC<Props> = ({
   recipe,
@@ -33,6 +34,9 @@ const Recipe: FC<Props> = ({
   loading,
 }) => {
   useInitFunction(getRecipe);
+  const { addAllToShoppingList, addOneToShoppingList } = useContext(
+    ShoppingListCtx
+  );
   const classes = useStyle();
 
   const [ingredientEdit, setIngredientEdit] = useState(false);
@@ -128,6 +132,7 @@ const Recipe: FC<Props> = ({
         />
       )}
       <Divider variant="middle" className="my-1" />
+
       {/* Ingredient */}
       <Typography variant="h5" align="left" noWrap>
         <Box fontWeight={500}>
@@ -139,34 +144,39 @@ const Recipe: FC<Props> = ({
         </Box>
       </Typography>
       <List>
-        {recipe?.ingredients.map((value, index) => (
+        {recipe?.ingredients.map(({ ingredient, quantity }, index) => (
           <ListItem key={index} className={classes.ingredientItem}>
             <ListItemIcon>
-              <ToShoppingButton />
+              <ToShoppingButton
+                onSelect={() =>
+                  addOneToShoppingList(ingredient, recipe.title, quantity)
+                }
+              />
             </ListItemIcon>
             <Typography>
-              {value.quantity ? value.quantity + " of " : ""}{" "}
+              {quantity ? quantity + " of " : ""}{" "}
               <Box component="span" fontWeight={401}>
-                {value.ingredient}
+                {ingredient}
               </Box>
             </Typography>
           </ListItem>
         ))}
       </List>
       <Box display="flex" justifyContent="center">
-        {" "}
         <Button
           color="primary"
           startIcon={<AddShoppingCartIcon />}
           className="normal-case"
+          onClick={() => recipe && addAllToShoppingList(recipe)}
         >
           Add all to shopping list
         </Button>
-      </Box>{" "}
+      </Box>
+
       {/* Steps */}
       {!stepEdit ? (
         recipe?.steps.map((step, index) => (
-          <>
+          <Fragment key={index}>
             <Divider variant="middle" className="my-1" />
             <Box key={index} py={2}>
               <Typography variant="h5" align="left" noWrap>
@@ -197,7 +207,7 @@ const Recipe: FC<Props> = ({
                 ))}
               </Box>
             </Box>
-          </>
+          </Fragment>
         ))
       ) : (
         <EditStepGroup

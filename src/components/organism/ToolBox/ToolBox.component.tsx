@@ -7,7 +7,8 @@ import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import { forwardTo } from "helpers/router";
-import React, { FC } from "react";
+import { ShoppingListCtx } from "providers/ShoppingListProvider";
+import React, { FC, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "reducers/rootReducer";
 import { logout } from "./ToolBox.actions";
@@ -24,6 +25,7 @@ const ToolBox: FC<Props> = ({ hidden }) => {
     (state) => state.auth.authenticated
   );
   const [open, setOpen] = React.useState(false);
+  const { openShoppingList } = useContext(ShoppingListCtx);
 
   const handleOpen = () => {
     setOpen(true);
@@ -76,10 +78,13 @@ const ToolBox: FC<Props> = ({ hidden }) => {
         />
         <SpeedDialAction
           icon={<ShoppingBasketIcon />}
-          tooltipTitle="View Basket"
+          tooltipTitle="View ShoppingList"
           tooltipOpen
           open={open}
-          onClick={() => forwardTo("/basket")}
+          onClick={() => {
+            openShoppingList();
+            handleClose();
+          }}
         />
       </SpeedDial>
     </>
