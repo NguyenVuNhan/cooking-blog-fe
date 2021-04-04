@@ -34,7 +34,7 @@ const Recipe: FC<Props> = ({
   loading,
 }) => {
   useInitFunction(getRecipe);
-  const { addAllToShoppingList, addOneToShoppingList } = useContext(
+  const { addAllToShoppingList, addOneToShoppingList, removeItem } = useContext(
     ShoppingListCtx
   );
   const classes = useStyle();
@@ -151,6 +151,7 @@ const Recipe: FC<Props> = ({
                 onSelect={() =>
                   addOneToShoppingList(ingredient, recipe.title, quantity)
                 }
+                onRemove={() => removeItem(recipe.title, ingredient)}
               />
             </ListItemIcon>
             <Typography>
