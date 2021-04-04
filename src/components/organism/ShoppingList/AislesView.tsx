@@ -1,3 +1,5 @@
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Checkbox from "@material-ui/core/Checkbox";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
@@ -27,6 +29,7 @@ interface ItemProps {
 
 const Item: FC<ItemProps> = ({ label, shoppingListItems }) => {
   const [expand, setExpand] = useState(false);
+  const { removeItem } = useContext(ShoppingListCtx);
 
   const handleClick = () => {
     setExpand(!expand);
@@ -34,13 +37,13 @@ const Item: FC<ItemProps> = ({ label, shoppingListItems }) => {
 
   return (
     <Fragment>
-      <ListItem className="pb-0" disableGutters button onClick={handleClick}>
+      <ListItem className="pb-0" disableGutters>
         <ListItemIcon>
           <Checkbox />
         </ListItemIcon>
-        <ListItemText primary={label} />
-        <IconButton>
-          <DeleteIcon />
+        <ListItemText primary={label} className="h-100" />
+        <IconButton onClick={handleClick} size="small">
+          {expand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         </IconButton>
       </ListItem>
       <Collapse in={expand} timeout="auto">
@@ -52,6 +55,12 @@ const Item: FC<ItemProps> = ({ label, shoppingListItems }) => {
                 secondary={item.recipe}
                 className="ml-5"
               />
+              <IconButton
+                onClick={() => removeItem(item.recipe, item.item)}
+                size="small"
+              >
+                <DeleteIcon />
+              </IconButton>
             </ListItem>
           ))}
         </List>

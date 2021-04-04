@@ -1,3 +1,5 @@
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import ShoppingList from "components/organism/ShoppingList";
 import React from "react";
 import { createContext, FC, useState } from "react";
@@ -20,6 +22,7 @@ interface ShoppingListContextType {
   ) => void;
   addAllToShoppingList: (recipe: Recipe) => void;
   clearShoppingList: () => void;
+  removeItem: (recipe: string, ingredient?: string) => void;
   shoppingList: ShoppingListItem[];
 }
 
@@ -30,12 +33,14 @@ export const ShoppingListCtx = createContext<ShoppingListContextType>({
   addOneToShoppingList: () => {},
   addAllToShoppingList: () => {},
   clearShoppingList: () => {},
+  removeItem: () => {},
   shoppingList: [],
 });
 
 const ShoppingListProvider: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
+  const [snackOpen, setSnackOpen] = React.useState(false);
 
   const openShoppingList = () => setOpen(true);
 
@@ -51,6 +56,8 @@ const ShoppingListProvider: FC = ({ children }) => {
       ...shoppingList,
       { item, recipe, description, checked: false },
     ]);
+
+    setSnackOpen(true);
   };
 
   const addAllToShoppingList = (recipe: Recipe) => {
@@ -67,9 +74,29 @@ const ShoppingListProvider: FC = ({ children }) => {
       };
     });
     setShoppingList([...shoppingList, ...newItems]);
+    setSnackOpen(true);
   };
 
   const clearShoppingList = () => setShoppingList([]);
+
+  const removeItem = (recipe: string, ingredient?: string) => {
+    const newList = shoppingList.filter(
+      (item) =>
+        !(
+          item.recipe === recipe &&
+          (ingredient ? item.item === ingredient : true)
+        )
+    );
+    setShoppingList([...newList]);
+  };
+
+  const handleSnackClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackOpen(false);
+  };
 
   return (
     <ShoppingListCtx.Provider
@@ -81,9 +108,20 @@ const ShoppingListProvider: FC = ({ children }) => {
         addOneToShoppingList,
         addAllToShoppingList,
         clearShoppingList,
+        removeItem,
       }}
     >
       {children}
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={1000}
+        onClose={handleSnackClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert onClose={handleSnackClose} severity="success">
+          New item added to shopping list
+        </Alert>
+      </Snackbar>
       <ShoppingList />
     </ShoppingListCtx.Provider>
   );

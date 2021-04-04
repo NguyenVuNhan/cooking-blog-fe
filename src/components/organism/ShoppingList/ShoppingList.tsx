@@ -1,7 +1,6 @@
 import CloseIcon from "@material-ui/icons/Close";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
@@ -61,9 +60,7 @@ const ShoppingList: FC = () => {
         />
       </div>
       <Divider className="mx-1" />
-      <DialogContent>
-        {view === "aisles" ? <AislesView /> : <RecipesView />}
-      </DialogContent>
+      <DialogContent>{listView}</DialogContent>
       <Divider className="m-1" />
     </Dialog>
   );

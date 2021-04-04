@@ -30,6 +30,7 @@ interface ItemProps {
 
 const Item: FC<ItemProps> = ({ label, shoppingListItems }) => {
   const [expand, setExpand] = useState(false);
+  const { removeItem } = useContext(ShoppingListCtx);
 
   const handleClick = () => {
     setExpand(!expand);
@@ -42,6 +43,9 @@ const Item: FC<ItemProps> = ({ label, shoppingListItems }) => {
           <BookIcon />
         </ListItemIcon>
         <ListItemText primary={label} />
+        <IconButton size="small" onClick={() => removeItem(label)}>
+          <DeleteIcon />
+        </IconButton>
         {expand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </ListItem>
       <Collapse in={expand} timeout="auto">
@@ -55,7 +59,11 @@ const Item: FC<ItemProps> = ({ label, shoppingListItems }) => {
                 primary={item.description}
                 secondary={item.recipe}
               />
-              <IconButton size="small">
+              <IconButton
+                size="small"
+                className="mr-1"
+                onClick={() => removeItem(label, item.item)}
+              >
                 <DeleteIcon />
               </IconButton>
             </ListItem>
