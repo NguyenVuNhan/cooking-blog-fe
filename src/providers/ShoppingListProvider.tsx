@@ -45,7 +45,6 @@ const ShoppingListProvider: FC = ({ children }) => {
   useEffect(() => {
     try {
       const serializedState = localStorage.getItem("shoppingList");
-      console.log(serializedState);
       if (!serializedState) return;
       const localList: ShoppingListItem[] = JSON.parse(serializedState);
       setShoppingList(localList);
@@ -57,7 +56,6 @@ const ShoppingListProvider: FC = ({ children }) => {
   const localSave = (list: ShoppingListItem[]) => {
     try {
       const serializedState = JSON.stringify(list);
-      console.log(serializedState);
       localStorage.setItem("shoppingList", serializedState);
     } catch (err) {
       return;
