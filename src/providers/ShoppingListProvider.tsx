@@ -1,7 +1,7 @@
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import ShoppingList from "components/organism/ShoppingList";
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, FC, useState } from "react";
 
 export interface ShoppingListItem {
@@ -42,6 +42,28 @@ const ShoppingListProvider: FC = ({ children }) => {
   const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
   const [snackOpen, setSnackOpen] = React.useState(false);
 
+  useEffect(() => {
+    try {
+      const serializedState = localStorage.getItem("shoppingList");
+      console.log(serializedState);
+      if (!serializedState) return;
+      const localList: ShoppingListItem[] = JSON.parse(serializedState);
+      setShoppingList(localList);
+    } catch (err) {
+      return;
+    }
+  }, []);
+
+  const localSave = (list: ShoppingListItem[]) => {
+    try {
+      const serializedState = JSON.stringify(list);
+      console.log(serializedState);
+      localStorage.setItem("shoppingList", serializedState);
+    } catch (err) {
+      return;
+    }
+  };
+
   const openShoppingList = () => setOpen(true);
 
   const closeShoppingList = () => setOpen(false);
@@ -52,12 +74,13 @@ const ShoppingListProvider: FC = ({ children }) => {
     quantity: string
   ) => {
     const description = quantity ? `${quantity} of item` : item;
-    setShoppingList([
+    const newList = [
       ...shoppingList,
       { item, recipe, description, checked: false },
-    ]);
-
+    ];
+    setShoppingList(newList);
     setSnackOpen(true);
+    localSave(newList);
   };
 
   const addAllToShoppingList = (recipe: Recipe) => {
@@ -65,7 +88,6 @@ const ShoppingListProvider: FC = ({ children }) => {
       const description = quantity
         ? `${quantity} of ${ingredient}`
         : ingredient;
-
       return {
         item: ingredient,
         recipe: recipe.title,
@@ -73,11 +95,16 @@ const ShoppingListProvider: FC = ({ children }) => {
         checked: false,
       };
     });
-    setShoppingList([...shoppingList, ...newItems]);
+    const newList = [...shoppingList, ...newItems];
+    setShoppingList(newList);
     setSnackOpen(true);
+    localSave(newList);
   };
 
-  const clearShoppingList = () => setShoppingList([]);
+  const clearShoppingList = () => {
+    setShoppingList([]);
+    localSave([]);
+  };
 
   const removeItem = (recipe: string, ingredient?: string) => {
     const newList = shoppingList.filter(
@@ -88,13 +115,11 @@ const ShoppingListProvider: FC = ({ children }) => {
         )
     );
     setShoppingList([...newList]);
+    localSave(newList);
   };
 
-  const handleSnackClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
+  const handleSnackClose = (_event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") return;
     setSnackOpen(false);
   };
 
