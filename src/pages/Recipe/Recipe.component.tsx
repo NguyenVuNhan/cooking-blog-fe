@@ -24,6 +24,7 @@ import ToShoppingButton from "./components/ToShoppingButton";
 import { Props } from "./Recipe.container";
 import useStyle from "./Recipe.style";
 import { ShoppingListCtx } from "providers/ShoppingListProvider";
+import Loading from "components/organism/Loading";
 
 const Recipe: FC<Props> = ({
   recipe,
@@ -31,6 +32,7 @@ const Recipe: FC<Props> = ({
   getRecipe,
   deleteRecipe,
   updateRecipe,
+  fetchRecipe,
   loading,
 }) => {
   useInitFunction(getRecipe);
@@ -46,7 +48,7 @@ const Recipe: FC<Props> = ({
   const [timeoutOpen, setTimeoutOpen] = React.useState(false);
   const [duration, setDuration] = useState(0);
 
-  if (loading) return <div>Loading...</div>;
+  if (fetchRecipe) return <Loading />;
 
   const handleClose = () => {
     setTimeoutOpen(false);
@@ -71,6 +73,7 @@ const Recipe: FC<Props> = ({
 
   return (
     <RecipeTemplate>
+      {loading && <Loading overlay />}
       <EditIngredientModal
         defaultIngredients={(recipe as Recipe).ingredients}
         open={ingredientEdit}

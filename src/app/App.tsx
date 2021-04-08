@@ -4,6 +4,7 @@ import GlobalStyles from "./style";
 import Route from "routes";
 import ShoppingListProvider from "providers/ShoppingListProvider";
 import ThemeProvider from "providers/ThemeProvider";
+import Box from "@material-ui/core/Box";
 
 const App: FC = () => {
   return (
@@ -11,7 +12,9 @@ const App: FC = () => {
       <ShoppingListProvider>
         <CssBaseline />
         <GlobalStyles />
-        <Route />
+        <Box minHeight="100vh" minWidth="100vw">
+          <Route />
+        </Box>
       </ShoppingListProvider>
     </ThemeProvider>
   );

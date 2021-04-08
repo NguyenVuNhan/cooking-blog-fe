@@ -1,10 +1,29 @@
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
+import { IRootState } from "reducers/rootReducer";
 import { addRecipe } from "./AddRecipe.actions";
 import AddRecipeComponent from "./AddRecipe.component";
-import { AddRecipeActionType } from "./AddRecipe.types";
+import { ADD_RECIPE } from "./AddRecipe.types";
 
-const mapDispatchToProps = (dispatch: Dispatch<AddRecipeActionType>) => ({
+interface OwnProps {}
+
+interface StateProps {
+  loading: boolean;
+}
+
+interface DispatchProps {
+  onAddRecipe: (stepIngredient: string[][]) => (data: RecipeForm) => void;
+}
+
+const mapStateToProps: MapStateToProps<StateProps, OwnProps, IRootState> = ({
+  loading,
+}) => {
+  const isLoading = !!loading[ADD_RECIPE];
+  return { loading: isLoading };
+};
+
+const mapDispatchToProps: MapDispatchToProps<DispatchProps, OwnProps> = (
+  dispatch
+) => ({
   onAddRecipe: (stepIngredient: string[][]) => (data: RecipeForm) => {
     if (data.steps) {
       data.steps = data.steps.map((step, index) => ({
@@ -17,4 +36,5 @@ const mapDispatchToProps = (dispatch: Dispatch<AddRecipeActionType>) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(AddRecipeComponent);
+export type Props = OwnProps & DispatchProps & StateProps;
+export default connect(mapStateToProps, mapDispatchToProps)(AddRecipeComponent);

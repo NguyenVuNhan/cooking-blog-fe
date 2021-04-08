@@ -4,18 +4,15 @@ import Container from "@material-ui/core/Container";
 import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import ToolBox from "components/organism/ToolBox";
-import Loading from "pages/Loading";
 import Box from "@material-ui/core/Box";
 
 interface Props {
   showToolBox?: boolean;
-  loading?: boolean;
   hideGoBack?: boolean;
 }
 
 const RecipeTemplate: FC<Props> = ({
   children,
-  loading = false,
   showToolBox = true,
   hideGoBack = false,
 }) => {
@@ -33,7 +30,7 @@ const RecipeTemplate: FC<Props> = ({
             <ArrowBackIcon />
           </IconButton>
         )}
-        {loading ? <Loading /> : children}
+        {children}
       </Box>
       {showToolBox && <ToolBox />}
     </Container>

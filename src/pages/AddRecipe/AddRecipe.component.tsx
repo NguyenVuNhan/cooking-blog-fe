@@ -8,16 +8,14 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import ErrorBadge from "components/molecules/ErrorBadge";
 import AddIngredientModal from "components/organism/AddIngredientModel";
 import AddStepGroup from "components/organism/AddStepGroup";
+import Loading from "components/organism/Loading";
 import RecipeTemplate from "components/templates/recipe.template";
 import React, { FC, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Props } from "./AddRecipe.container";
 import * as types from "./AddRecipe.types";
 
-interface Props {
-  onAddRecipe: (stepIngredient: string[][]) => (data: RecipeForm) => void;
-}
-
-const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
+const AddRecipe: FC<Props> = ({ onAddRecipe, loading }) => {
   const { register, errors, control, handleSubmit } = useForm<RecipeForm>({
     defaultValues: {
       steps: [],
@@ -42,71 +40,71 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
   };
 
   return (
-    <>
-      <RecipeTemplate showToolBox={false}>
-        <Grid
-          container
-          alignItems="flex-start"
-          noValidate
-          component="form"
-          spacing={3}
-          onSubmit={handleSubmit(onAddRecipe(stepIngredient.current))}
-        >
-          <Grid item sm={12}>
-            <Typography variant="h2" align="center" noWrap>
-              Add New Recipe
-            </Typography>
-          </Grid>
-          <Grid item sm={12}>
-            <ErrorBadge type={types.ADD_RECIPE} />
-          </Grid>
-          <Grid item sm={9}>
-            <TextField
-              name="title"
-              inputRef={register({ required: "Title is required" })}
-              error={Boolean(errors.title)}
-              helperText={errors.title?.message}
-              label="Title"
-              fullWidth
-            />
-          </Grid>
-          <Grid item sm={3}>
-            <TextField
-              name="duration"
-              label="Duration"
-              inputRef={register({ required: "Duration is required" })}
-              error={Boolean(errors.duration)}
-              helperText={errors.duration?.message}
-              fullWidth
-            />
-          </Grid>
-
-          <Grid item sm={12} container spacing={3}>
-            <h3 className="ml-2">
-              Ingredients:
-              {ingredients.map((ingredient: string, index: number) => (
-                <Chip key={index} size="small" label={ingredient} />
-              ))}
-            </h3>
-            <IconButton color="primary" onClick={handleModalOpen}>
-              <AddCircleOutlineIcon />
-            </IconButton>
-          </Grid>
-
-          <AddStepGroup
-            control={control}
-            errors={errors}
-            register={register}
-            ingredients={ingredients}
-            stepIngredient={stepIngredient.current}
-          />
-          <Grid item container sm={12}>
-            <Button color="primary" variant="contained" type="submit">
-              Submit
-            </Button>
-          </Grid>
+    <RecipeTemplate showToolBox={false}>
+      {loading && <Loading overlay />}
+      <Grid
+        container
+        alignItems="flex-start"
+        noValidate
+        component="form"
+        spacing={3}
+        onSubmit={handleSubmit(onAddRecipe(stepIngredient.current))}
+      >
+        <Grid item sm={12}>
+          <Typography variant="h2" align="center" noWrap>
+            Add New Recipe
+          </Typography>
         </Grid>
-      </RecipeTemplate>
+        <Grid item sm={12}>
+          <ErrorBadge type={types.ADD_RECIPE} />
+        </Grid>
+        <Grid item sm={9}>
+          <TextField
+            name="title"
+            inputRef={register({ required: "Title is required" })}
+            error={Boolean(errors.title)}
+            helperText={errors.title?.message}
+            label="Title"
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item sm={3}>
+          <TextField
+            name="duration"
+            label="Duration"
+            inputRef={register({ required: "Duration is required" })}
+            error={Boolean(errors.duration)}
+            helperText={errors.duration?.message}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid item sm={12} container spacing={3}>
+          <h3 className="ml-2">
+            Ingredients:
+            {ingredients.map((ingredient: string, index: number) => (
+              <Chip key={index} size="small" label={ingredient} />
+            ))}
+          </h3>
+          <IconButton color="primary" onClick={handleModalOpen}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+        </Grid>
+
+        <AddStepGroup
+          control={control}
+          errors={errors}
+          register={register}
+          ingredients={ingredients}
+          stepIngredient={stepIngredient.current}
+        />
+        <Grid item container sm={12}>
+          <Button color="primary" variant="contained" type="submit">
+            Submit
+          </Button>
+        </Grid>
+      </Grid>
       <AddIngredientModal
         title="Add Ingredient"
         control={control}
@@ -115,7 +113,7 @@ const AddRecipe: FC<Props> = ({ onAddRecipe }) => {
         handleClose={handleModalClose}
         handleSave={handleModalSave}
       />
-    </>
+    </RecipeTemplate>
   );
 };
 
