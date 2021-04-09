@@ -3,7 +3,6 @@ import {
   all,
   AllEffect,
   call,
-  delay,
   fork,
   ForkEffect,
   put,
