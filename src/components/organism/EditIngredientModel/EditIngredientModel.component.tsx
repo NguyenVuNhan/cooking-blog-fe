@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import AddIngredientModal from "../AddIngredientModel";
 
@@ -14,14 +14,20 @@ const EditIngredientModal: FC<Props> = ({
   onUpdate,
   ...rest
 }) => {
-  const { register, control } = useForm<Pick<RecipeForm, "ingredients">>({
-    defaultValues: {
-      ingredients: defaultIngredients,
-    },
-  });
+  const { register, control, reset } = useForm<Pick<RecipeForm, "ingredients">>(
+    {
+      defaultValues: {
+        ingredients: defaultIngredients,
+      },
+    }
+  );
   const handleModalSave = (ingredients: Ingredients) => {
     onUpdate({ ingredients });
   };
+
+  useEffect(() => {
+    reset({ ingredients: defaultIngredients });
+  }, [defaultIngredients]);
 
   return (
     <AddIngredientModal

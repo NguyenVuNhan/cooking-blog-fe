@@ -7,6 +7,7 @@ import { extractMatch } from "helpers/autoComplete";
 import { throttle } from "helpers/utils";
 import { UseFormMethods } from "react-hook-form";
 import { Controller } from "react-hook-form";
+import useIsMounted from "hooks/useIsMounted";
 
 type Props = Pick<UseFormMethods, "control"> &
   TextFieldProps & {
@@ -21,6 +22,7 @@ const IngredientInput: FC<Props> = ({
 }) => {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<string[]>([]);
+  const isMounted = useIsMounted();
   let loading = false;
 
   const fetch = React.useMemo(
@@ -29,7 +31,7 @@ const IngredientInput: FC<Props> = ({
         loading = true;
         if (name.length > 0)
           getIngredients(name).then((res) => {
-            setOptions(res.data.ingredients);
+            isMounted && setOptions(res.data.ingredients);
             loading = false;
           });
       }, 2000),
@@ -41,7 +43,7 @@ const IngredientInput: FC<Props> = ({
     value: string
   ): void => {
     if (value === "") {
-      setOptions([]);
+      isMounted && setOptions([]);
       return;
     }
 
