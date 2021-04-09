@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteIcon from "@material-ui/icons/Delete";
 import clsx from "clsx";
+import IngredientInput from "components/molecules/IngredientInput";
 import ModalTemplate from "components/templates/modal.template";
 import React, { FC, Fragment } from "react";
 import { useFieldArray, UseFormMethods, useWatch } from "react-hook-form";
@@ -62,15 +63,15 @@ const AddIngredientModel: FC<Props> = ({
         <Fragment key={ingredient.id}>
           <Grid item sm={12} container alignItems="flex-end" spacing={3}>
             <Grid item sm={7}>
-              <TextField
-                label="ingredients"
+              <IngredientInput
+                control={control}
+                label="Ingredients"
                 name={`ingredients[${index}].ingredient`}
-                inputRef={register}
                 defaultValue={ingredient.ingredient}
                 fullWidth
                 margin="none"
                 size="small"
-              ></TextField>
+              />
             </Grid>
             <Grid item sm={4}>
               <TextField
