@@ -30,10 +30,14 @@ const IngredientInput: FC<Props> = ({
       throttle((name: string) => {
         loading = true;
         if (name.length > 0)
-          getIngredients(name).then((res) => {
-            isMounted && setOptions(res.data.ingredients);
-            loading = false;
-          });
+          getIngredients(name)
+            .then((res) => {
+              isMounted && setOptions(res.data.ingredients);
+              loading = false;
+            })
+            .catch(() => {
+              loading = false;
+            });
       }, 2000),
     []
   );
