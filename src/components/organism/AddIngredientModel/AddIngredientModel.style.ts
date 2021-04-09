@@ -1,17 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyle = makeStyles({
-  title: {
-    paddingTop: "0 !important",
-    paddingBottom: "0 !important",
-    "& button": {
-      paddingTop: "0 !important",
-      paddingBottom: "0 !important",
-    },
+const useStyle = makeStyles((theme) => ({
+  addBtn: {
+    marginTop: theme.spacing(2),
   },
-  actionBtn: {
-    width: 20,
-  },
-});
+}));
 
 export default useStyle;

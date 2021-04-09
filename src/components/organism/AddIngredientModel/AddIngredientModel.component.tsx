@@ -1,13 +1,14 @@
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteIcon from "@material-ui/icons/Delete";
-import clsx from "clsx";
 import IngredientInput from "components/molecules/IngredientInput";
-import ModalTemplate from "components/templates/modal.template";
 import React, { FC, Fragment } from "react";
 import { useFieldArray, UseFormMethods, useWatch } from "react-hook-form";
 import useStyle from "./AddIngredientModel.style";
@@ -46,74 +47,66 @@ const AddIngredientModel: FC<Props> = ({
   };
 
   return (
-    <ModalTemplate title={title} open={open} onClose={handleClose} keepMounted>
-      <Grid
-        item
-        container
-        sm={12}
-        alignItems="center"
-        className={clsx(classes.title, "mb-2")}
-      >
-        <Typography>Ingredients</Typography>
-        <IconButton color="primary" onClick={addIngredient}>
-          <AddCircleOutlineIcon />
-        </IconButton>
-      </Grid>
-      {fields.map((ingredient, index) => (
-        <Fragment key={ingredient.id}>
-          <Grid item sm={12} container alignItems="flex-end" spacing={3}>
-            <Grid item sm={7}>
-              <IngredientInput
-                control={control}
-                label="Ingredients"
-                name={`ingredients[${index}].ingredient`}
-                defaultValue={ingredient.ingredient}
-                fullWidth
-                margin="none"
-                size="small"
-              />
+    <Dialog
+      title={title}
+      open={open}
+      onClose={handleClose}
+      keepMounted
+      fullWidth
+      maxWidth="sm"
+    >
+      <DialogTitle>Ingredients</DialogTitle>
+      <DialogContent dividers>
+        {fields.map((ingredient, index) => (
+          <Fragment key={ingredient.id}>
+            <Grid item sm={12} container alignItems="flex-end" spacing={3}>
+              <Grid item sm={7}>
+                <IngredientInput
+                  control={control}
+                  label="Ingredients"
+                  name={`ingredients[${index}].ingredient`}
+                  defaultValue={ingredient.ingredient}
+                  fullWidth
+                  margin="none"
+                  size="small"
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField
+                  label="quantity"
+                  name={`ingredients[${index}].quantity`}
+                  inputRef={register}
+                  defaultValue={ingredient.quantity}
+                  fullWidth
+                  margin="none"
+                  size="small"
+                ></TextField>
+              </Grid>
+              <Grid item sm={1}>
+                <IconButton onClick={deleteIngredient(index)} className="p-0">
+                  <DeleteIcon color="error" />
+                </IconButton>
+              </Grid>
             </Grid>
-            <Grid item sm={4}>
-              <TextField
-                label="quantity"
-                name={`ingredients[${index}].quantity`}
-                inputRef={register}
-                defaultValue={ingredient.quantity}
-                fullWidth
-                margin="none"
-                size="small"
-              ></TextField>
-            </Grid>
-            <Grid item sm={1}>
-              <IconButton onClick={deleteIngredient(index)} className="p-0">
-                <DeleteIcon color="error" />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </Fragment>
-      ))}
-      <Grid item sm={12} container alignItems="flex-end" spacing={3}>
-        <Grid item container sm={6} justify="center">
-          <Button
-            className={classes.actionBtn}
-            variant="contained"
-            color="primary"
-            onClick={_handleSave}
-          >
-            Save
-          </Button>
-        </Grid>
-        <Grid item container sm={6} justify="center">
-          <Button
-            className={classes.actionBtn}
-            variant="contained"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-        </Grid>
-      </Grid>
-    </ModalTemplate>
+          </Fragment>
+        ))}
+        <Button
+          startIcon={<AddCircleOutlineIcon />}
+          color="primary"
+          onClick={addIngredient}
+          className={classes.addBtn}
+        >
+          Add Ingredient
+        </Button>
+      </DialogContent>
+
+      <DialogActions>
+        <Button color="primary" onClick={_handleSave}>
+          Save
+        </Button>
+        <Button onClick={handleClose}>Cancel</Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
