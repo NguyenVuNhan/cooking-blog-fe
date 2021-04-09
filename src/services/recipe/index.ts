@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export type SearchResponseData = BaseBody<{ recipes: Recipes }>;
-export const search = async (_query: string): Promise<SearchResponseData> => {
-  // TODO: change to search recipe
-  const res = await axios.get<SearchResponseData>("/api/recipe");
+export const search = async (query: string): Promise<SearchResponseData> => {
+  console.log(query);
+
+  const res = await axios.get<SearchResponseData>(`/api/recipe?query=${query}`);
   return res.data;
 };
 

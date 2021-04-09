@@ -15,7 +15,7 @@ const SearchContainer: FC<Props> = ({ onSearch, search }) => {
   const q = useQuery();
 
   const _onSearch = (data: SearchForm) => {
-    const query = `?q=${data.data}`;
+    const query = `${data.data}`;
     search(query);
 
     onSearch && onSearch(query);
@@ -23,8 +23,9 @@ const SearchContainer: FC<Props> = ({ onSearch, search }) => {
 
   useEffect(() => {
     if (!q.get("q")) return;
-    const query = q.toString();
-    search(`?${query}`);
+    const query = q.get("q") || "";
+
+    search(query);
   }, []);
 
   return <SearchComponent onSearch={_onSearch} />;

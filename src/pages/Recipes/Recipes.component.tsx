@@ -18,7 +18,7 @@ const SearchRecipe: FC = () => {
           </Typography>
           <Search
             onSearch={(query) =>
-              history.replace(`${history.location.pathname}${query}`)
+              history.replace(`${history.location.pathname}?q=${query}`)
             }
           />
         </div>
